@@ -227,7 +227,7 @@ Hydrated Bloc is a library that allows you to persist bloc state. It is a bad id
 ## Credits
 
 - [Purple Starter](https://github.com/purplenoodlesoop) - Yakov Karpov
-- [Plugfox](https://github.com/PlugFox) - Michael Matiunin
+- [Plugfox](https://github.com/PlugFox) - Michael Matiunine
 
 [//]: <recommended>
 [bloc]: https://pub.dev/packages/bloc
