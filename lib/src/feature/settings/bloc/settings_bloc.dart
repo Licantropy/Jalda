@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' show Locale;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sizzle_starter/src/core/localization/localization.dart';
-import 'package:sizzle_starter/src/feature/app/model/app_theme.dart';
-import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
+import 'package:jalda/src/core/localization/localization.dart';
+import 'package:jalda/src/feature/app/model/app_theme.dart';
+import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 
 part 'settings_bloc.freezed.dart';
 

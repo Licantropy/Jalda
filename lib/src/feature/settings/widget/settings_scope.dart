@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizzle_starter/src/core/utils/extensions/context_extension.dart';
-import 'package:sizzle_starter/src/feature/app/model/app_theme.dart';
-import 'package:sizzle_starter/src/feature/initialization/widget/dependencies_scope.dart';
-import 'package:sizzle_starter/src/feature/settings/bloc/settings_bloc.dart';
+import 'package:jalda/src/core/utils/extensions/context_extension.dart';
+import 'package:jalda/src/feature/app/model/app_theme.dart';
+import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
+import 'package:jalda/src/feature/settings/bloc/settings_bloc.dart';
 
 /// {@template theme_scope_controller}
 /// A controller that holds and operates the app theme.
@@ -59,7 +59,7 @@ class SettingsScope extends StatefulWidget {
   /// The child widget.
   final Widget child;
 
-  /// Get the [SettingsScopeController] of the closest [SettingsScope] ancestor.
+  /// Get the [SettingsScopeController] of the sest [SettingsScope] ancestor.
   static SettingsScopeController of(
     BuildContext context, {
     bool listen = true,

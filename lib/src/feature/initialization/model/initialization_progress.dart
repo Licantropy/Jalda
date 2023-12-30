@@ -1,5 +1,5 @@
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/environment_store.dart';
+import 'package:jalda/src/feature/initialization/model/dependencies.dart';
+import 'package:jalda/src/feature/initialization/model/environment_store.dart';
 
 /// {@template initialization_progress}
 /// A class which represents the initialization progress.

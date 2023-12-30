@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:sizzle_starter/src/core/utils/preferences_dao.dart';
+import 'package:jalda/src/core/utils/preferences_dao.dart';
 
 /// {@template locale_datasource}
 /// [LocaleDataSource] is an entry point to the locale data layer.

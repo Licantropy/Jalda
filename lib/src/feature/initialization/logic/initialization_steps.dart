@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/initialization_progress.dart';
-import 'package:sizzle_starter/src/feature/settings/data/locale_datasource.dart';
-import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
-import 'package:sizzle_starter/src/feature/settings/data/theme_datasource.dart';
-import 'package:sizzle_starter/src/feature/settings/data/theme_mode_codec.dart';
+import 'package:jalda/src/feature/initialization/model/dependencies.dart';
+import 'package:jalda/src/feature/initialization/model/initialization_progress.dart';
+import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
+import 'package:jalda/src/feature/settings/data/settings_repository.dart';
+import 'package:jalda/src/feature/settings/data/theme_datasource.dart';
+import 'package:jalda/src/feature/settings/data/theme_mode_codec.dart';
 
 /// A function which represents a single initialization step.
 typedef StepAction = FutureOr<void>? Function(InitializationProgress progress);

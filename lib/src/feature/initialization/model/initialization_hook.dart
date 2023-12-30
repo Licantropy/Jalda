@@ -1,5 +1,5 @@
-import 'package:sizzle_starter/src/feature/initialization/logic/initialization_processor.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies.dart';
+import 'package:jalda/src/feature/initialization/logic/initialization_processor.dart';
+import 'package:jalda/src/feature/initialization/model/dependencies.dart';
 
 /// {@template initialization_hook}
 /// A hook for the initialization process.

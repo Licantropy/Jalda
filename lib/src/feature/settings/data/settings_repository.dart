@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' show Locale;
-import 'package:sizzle_starter/src/feature/app/model/app_theme.dart';
-import 'package:sizzle_starter/src/feature/settings/data/locale_datasource.dart';
-import 'package:sizzle_starter/src/feature/settings/data/theme_datasource.dart';
+import 'package:jalda/src/feature/app/model/app_theme.dart';
+import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
+import 'package:jalda/src/feature/settings/data/theme_datasource.dart';
 
 /// Settings repository
 abstract interface class SettingsRepository {

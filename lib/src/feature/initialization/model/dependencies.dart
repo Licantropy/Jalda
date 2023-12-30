@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/feature/settings/data/settings_repository.dart';
+import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 
 /// {@template dependencies}
 /// Dependencies container

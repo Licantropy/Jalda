@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizzle_starter/src/core/localization/localization.dart';
-import 'package:sizzle_starter/src/feature/settings/widget/settings_scope.dart';
+import 'package:jalda/src/core/localization/localization.dart';
+import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -52,6 +52,7 @@ class HomeScreen extends StatelessWidget {
                 const _ThemeSelector(Colors.accents),
               ]),
             ),
+
             SliverToBoxAdapter(
               child: Center(
                 child: SizedBox(
@@ -64,6 +65,18 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: Center(
+                child: SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Card(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    margin: const EdgeInsets.all(8),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       );
