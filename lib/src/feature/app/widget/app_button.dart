@@ -11,7 +11,7 @@ class AppButton extends StatelessWidget {
     this.height,
     this.child,
     this.width,
-    this.onTap,
+    this.onPressed,
     this.borderRadius = 16,
     this.padding,
     this.margin,
@@ -44,7 +44,7 @@ class AppButton extends StatelessWidget {
   final Color? color;
 
   /// Function of the button
-  final GestureTapCallback? onTap;
+  final GestureTapCallback? onPressed;
 
   /// Used when child is not needed.
   final String? text;
@@ -68,7 +68,7 @@ class AppButton extends StatelessWidget {
           border: border! ? Border.fromBorderSide(BorderSide(width: 2, color: borderColor!)) : null,
         ),
         child: ElevatedButton(
-          onPressed: () => onTap?.call(),
+          onPressed: () => onPressed?.call(),
           style: ElevatedButton.styleFrom(
             elevation: 0,
             padding: padding ?? 10.vp,

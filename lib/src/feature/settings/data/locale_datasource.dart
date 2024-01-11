@@ -14,7 +14,6 @@ abstract interface class LocaleDataSource {
   /// Get current locale from cache
   Locale? loadLocaleFromCache();
 }
-
 /// {@macro locale_datasource}
 final class LocaleDataSourceImpl extends PreferencesDao
     implements LocaleDataSource {

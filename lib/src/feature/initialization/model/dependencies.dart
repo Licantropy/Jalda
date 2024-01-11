@@ -1,5 +1,6 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jalda/src/core/components/rest_client/src/rest_client_dio.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template dependencies}
 /// Dependencies container
@@ -13,6 +14,9 @@ base class Dependencies {
 
   /// Theme repository
   late final SettingsRepository settingsRepository;
+
+  /// Dio client
+  late final RestClientDio restClientDio;
 }
 
 /// {@template initialization_result}

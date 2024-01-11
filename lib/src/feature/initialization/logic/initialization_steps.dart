@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:jalda/src/feature/initialization/model/dependencies.dart';
+import 'package:dio/dio.dart';
+import 'package:jalda/src/core/components/rest_client/src/rest_client_dio.dart';
 import 'package:jalda/src/feature/initialization/model/initialization_progress.dart';
 import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 import 'package:jalda/src/feature/settings/data/theme_datasource.dart';
 import 'package:jalda/src/feature/settings/data/theme_mode_codec.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// A function which represents a single initialization step.
 typedef StepAction = FutureOr<void>? Function(InitializationProgress progress);
@@ -22,6 +23,16 @@ mixin InitializationSteps {
     'Shared Preferences': (progress) async {
       final sharedPreferences = await SharedPreferences.getInstance();
       progress.dependencies.sharedPreferences = sharedPreferences;
+    },
+    'Rest client': (progress) async {
+      final dio = Dio();
+
+      final restClientDio = RestClientDio(
+        baseUrl: 'https://jalda.almatythinks.kz/',
+        dio: dio,
+      );
+
+      progress.dependencies.restClientDio = restClientDio;
     },
     'Settings Repository': (progress) {
       final sharedPreferences = progress.dependencies.sharedPreferences;
