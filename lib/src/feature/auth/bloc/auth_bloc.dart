@@ -5,6 +5,7 @@ import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart'
 import 'package:meta/meta.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 ///
@@ -21,12 +22,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(LoginSuccess());
       } catch (e) {
         emit(LoginFailure(e.toString()));
+
         rethrow;
       }
     });
 
     on<RegisterRequested>((event, emit) async {
       emit(RegisterLoading());
+
       try {
         await authRepository.register(event.params);
         emit(RegisterSuccess());

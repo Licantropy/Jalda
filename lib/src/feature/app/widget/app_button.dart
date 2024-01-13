@@ -4,7 +4,6 @@ import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 /// Default button
 /// Elevated button, that commonly used
 class AppButton extends StatelessWidget {
-
   /// Creates an ElevatedButton.If none of the values is used, Its expands to the all width, with vertical padding 10, and borderRadius 16.
   const AppButton({
     super.key,
@@ -88,8 +87,4 @@ class AppButton extends StatelessWidget {
               : child,
         ),
       );
-
-
 }
-
-

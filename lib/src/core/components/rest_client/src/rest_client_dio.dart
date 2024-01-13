@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import 'package:jalda/src/core/components/rest_client/rest_client.dart';
+import 'package:meta/meta.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 /// {@template rest_client_dio}
@@ -9,16 +9,14 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 final class RestClientDio extends RestClientBase {
   /// {@macro rest_client_dio}
   RestClientDio({required super.baseUrl, required Dio dio}) : _dio = dio {
-    _dio.interceptors.add(PrettyDioLogger(
-      requestHeader: true,
-      requestBody: true,
-      responseBody: true,
-      responseHeader: false,
-      error: true,
-      compact: true,
-      maxWidth: 90,
-    ));
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+      ),
+    );
   }
+
   final Dio _dio;
 
   /// Send [Dio] request

@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:jalda/src/core/utils/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:jalda/src/core/utils/logger.dart';
 
 /// A class which is responsible for disabling error tracking.
 abstract class ExceptionTrackingDisabler {

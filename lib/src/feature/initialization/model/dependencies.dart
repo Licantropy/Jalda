@@ -1,4 +1,5 @@
-import 'package:jalda/src/core/components/rest_client/src/rest_client_dio.dart';
+import 'package:dio/dio.dart';
+import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,8 +16,11 @@ base class Dependencies {
   /// Theme repository
   late final SettingsRepository settingsRepository;
 
+  /// AuthRepository
+  late final AuthRepository authRepository;
+
   /// Dio client
-  late final RestClientDio restClientDio;
+  late final Dio restClientDio;
 }
 
 /// {@template initialization_result}

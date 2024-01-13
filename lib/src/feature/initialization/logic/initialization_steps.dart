@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:jalda/src/core/components/rest_client/src/rest_client_dio.dart';
+import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
+import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
+import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
 import 'package:jalda/src/feature/initialization/model/initialization_progress.dart';
 import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 import 'package:jalda/src/feature/settings/data/theme_datasource.dart';
 import 'package:jalda/src/feature/settings/data/theme_mode_codec.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// A function which represents a single initialization step.
@@ -25,11 +28,16 @@ mixin InitializationSteps {
       progress.dependencies.sharedPreferences = sharedPreferences;
     },
     'Rest client': (progress) async {
-      final dio = Dio();
-
-      final restClientDio = RestClientDio(
-        baseUrl: 'https://jalda.almatythinks.kz/',
-        dio: dio,
+      final restClientDio = Dio(
+        BaseOptions(
+          baseUrl: 'https://jalda.almatythinks.kz/api/',
+        ),
+      );
+      restClientDio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+        ),
       );
 
       progress.dependencies.restClientDio = restClientDio;
@@ -47,6 +55,12 @@ mixin InitializationSteps {
         themeDataSource: themeDataSource,
         localeDataSource: localeDataSource,
       );
+    },
+    'Auth Repository': (progress) async {
+      final authDataSource = AuthDataSourceImpl(progress.dependencies.restClientDio);
+      final tokenManagerDataSource = TokenManagerDataSourceImpl(sharedPreferences: progress.dependencies.sharedPreferences);
+
+      progress.dependencies.authRepository = AuthRepository(authDataSource, tokenManagerDataSource);
     },
   };
 }

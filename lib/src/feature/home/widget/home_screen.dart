@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
-import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -23,9 +21,7 @@ class HomeScreen extends StatelessWidget {
                 child: Material(
                   elevation: 10,
                   shape: const CircleBorder(),
-                  child: Padding(
-                      padding: 13.p,
-                      child: const Icon(Icons.pin_drop)),
+                  child: Padding(padding: 13.p, child: const Icon(Icons.pin_drop)),
                 ),
               ),
               Positioned(
@@ -34,27 +30,26 @@ class HomeScreen extends StatelessWidget {
                 child: Material(
                   elevation: 10,
                   shape: const CircleBorder(),
-                  child: Padding(
-                      padding: 13.p,
-                      child: const Icon(Icons.menu)),
+                  child: Padding(padding: 13.p, child: const Icon(Icons.menu)),
                 ),
               ),
               Positioned(
-                  right: 0,
-                  left: 0,
-                  child: SafeArea(
-                    child: Container(
-                      margin: 10.p,
-                      padding: 10.vp,
-                      decoration: BoxDecoration(borderRadius: 25.r, color: Theme.of(context).colorScheme.primary),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [const Text('Почасово'), 20.w, const Text('Посуточно')],
-                      ),
+                right: 0,
+                left: 0,
+                child: SafeArea(
+                  child: Container(
+                    margin: 10.p,
+                    padding: 10.vp,
+                    decoration: BoxDecoration(borderRadius: 25.r, color: Theme.of(context).colorScheme.primary),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [const Text('Почасово'), 20.w, const Text('Посуточно')],
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Container(),
             ],
           ),

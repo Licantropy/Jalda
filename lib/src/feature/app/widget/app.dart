@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:jalda/src/feature/app/widget/material_context.dart';
-import 'package:jalda/src/feature/initialization/logic/initialization_processor.dart';
 import 'package:jalda/src/feature/initialization/model/dependencies.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// {@template app}
 /// [App] is an entry point to the application.

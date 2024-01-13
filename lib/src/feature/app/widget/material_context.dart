@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/feature/auth/login/widget/login_screen.dart';
 import 'package:jalda/src/feature/auth/registration/widget/registration_screen.dart';
+import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
 import 'package:jalda/src/feature/home/widget/home_screen.dart';
 import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
 
@@ -24,9 +25,13 @@ class MaterialContext extends StatelessWidget {
         GoRoute(
           name: 'login',
           path: '/',
-          builder: (context, state) => LoginScreen(),
+          builder: (context, state) => const AuthScope(child: LoginScreen()),
           routes: [
-            GoRoute(name: 'registration', path: 'registration', builder: (context, state) => RegistrationScreen()),
+            GoRoute(
+              name: 'registration',
+              path: 'registration',
+              builder: (context, state) => const AuthScope(child: RegistrationScreen()),
+            ),
           ],
         ),
         GoRoute(name: 'home', path: '/home', builder: (context, state) => const HomeScreen()),

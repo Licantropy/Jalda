@@ -12,10 +12,9 @@ class TokenPairDto with _$TokenPairDto {
     @JsonKey(name: 'refresh_token')required String refresh,
   }) = _TokenPairDto;
 
-  TokenPairDto._();
 
   ///
-  factory TokenPairDto.fromJson(Map<String, Object?> json) =>
+  factory TokenPairDto.fromJson(Map<String, dynamic> json) =>
       _$TokenPairDtoFromJson(json);
 
 

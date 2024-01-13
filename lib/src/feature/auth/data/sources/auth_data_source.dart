@@ -5,7 +5,6 @@ import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 
 ///
 abstract interface class AuthDataSource {
-
   ///
   FutureOr<TokenPairDto> login({required LoginParams params});
 

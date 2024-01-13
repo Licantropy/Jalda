@@ -15,8 +15,9 @@ class LoginSuccess extends AuthState {}
 
 ///
 class LoginFailure extends AuthState {
+  ///
   final String error;
-
+///
   LoginFailure(this.error);
 }
 
@@ -28,7 +29,9 @@ class RegisterSuccess extends AuthState {}
 
 ///
 class RegisterFailure extends AuthState {
+  ///
   final String error;
 
+  ///
   RegisterFailure(this.error);
 }

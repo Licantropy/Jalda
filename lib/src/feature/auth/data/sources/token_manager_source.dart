@@ -2,28 +2,41 @@ import 'dart:async';
 
 import 'package:jalda/src/core/utils/preferences_dao.dart';
 
-
-
 ///
 abstract interface class TokenManagerDataSource {
   ///
   FutureOr<void> saveAccessToken(String value);
+
+  ///
+  FutureOr<void> saveRefreshToken(String value);
+
+  ///
+  FutureOr<String?> getAccessToken();
+
+  ///
+  FutureOr<String?> getRefreshToken();
 }
 
-
-
 ///
-class TokenManagerDataSourceImpl extends TokenManagerDataSource {
-  final PreferencesDao _preferencesDao;
-
+final class TokenManagerDataSourceImpl extends PreferencesDao implements TokenManagerDataSource {
   ///
-  TokenManagerDataSourceImpl(this._preferencesDao);
+  TokenManagerDataSourceImpl({required super.sharedPreferences});
+
+  PreferencesEntry<String> get _access => stringEntry('access_token');
+
+  PreferencesEntry<String> get _refresh => stringEntry('access_token');
 
   @override
-  Future<void> saveAccessToken(String value) async {
-    await _preferencesDao.stringEntry('access_token').set(value);
-  }
+  Future<void> saveAccessToken(String value) => _access.set(value);
 
-  ///
-  Future<String?> getAccessToken() async => _preferencesDao.stringEntry('access_token').read();
+  @override
+  Future<void> saveRefreshToken(String value) => _refresh.set(value);
+
+
+  @override
+  Future<String?> getAccessToken() async => _access.read();
+
+  @override
+  Future<String?> getRefreshToken() async => _refresh.read();
+
 }

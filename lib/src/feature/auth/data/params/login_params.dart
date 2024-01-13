@@ -12,7 +12,6 @@ class LoginParams with Params, _$LoginParams {
   factory LoginParams({
     required String email,
     required String password,
-    required String phone,
   }) = _LoginParams;
 
   LoginParams._();
@@ -23,6 +22,5 @@ class LoginParams with Params, _$LoginParams {
   Map<String, dynamic> toData() => {
       'email': email,
       'password': password,
-      'phone': phone,
     };
 }
