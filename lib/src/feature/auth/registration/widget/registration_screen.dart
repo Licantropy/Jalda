@@ -1,12 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/app/widget/app_text_field.dart';
+import 'package:jalda/src/feature/auth/bloc/auth_bloc.dart';
+import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
+import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
 
+/// A StatefulWidget that provides a user interface for user registration.
 ///
+/// This screen allows users to enter their email, phone number, name, and password to register.
+/// It includes text fields for entering these details and buttons for registration and
+/// navigation to the login screen.
 class RegistrationScreen extends StatefulWidget {
-  /// Registration screen to authorize the user
+  /// Creates a RegistrationScreen widget.
+  ///
+  /// The [key] argument is passed to the superclass for widget identification.
   const RegistrationScreen({super.key});
 
   @override
@@ -14,24 +25,72 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  /// Email controller to hold the value of TextField
-  final emailController = TextEditingController();
+  /// Controller for the email input field.
+  ///
+  /// This controller manages the text being input into the email field, allowing
+  /// retrieval and listening for changes.
+  final _emailController = TextEditingController();
 
-  /// Controller to hold the value of TextField
-  final phoneController = TextEditingController();
+  /// Controller for the phone number input field.
+  ///
+  /// This controller manages the text being input into the phone number field, allowing
+  /// retrieval and listening for changes.
+  final _phoneController = TextEditingController();
 
-  /// Controller to hold the value of TextField
-  final nameController = TextEditingController();
+  /// Controller for the name input field.
+  ///
+  /// This controller manages the text being input into the name field, allowing
+  /// retrieval and listening for changes.
+  final _nameController = TextEditingController();
 
-  /// Controller to hold the value of TextField
-  final passwordController = TextEditingController();
+  /// Controller for the password input field.
+  ///
+  /// This controller manages the text being input into the password field, allowing
+  /// retrieval and listening for changes.
+  final _passwordController = TextEditingController();
 
-  /// Controller to hold the value of TextField
-  final confirmPasswordController = TextEditingController();
+  /// Controller for the confirm password input field.
+  ///
+  /// This controller manages the text being input into the confirm password field,
+  /// allowing retrieval and listening for changes.
+  final _confirmPasswordController = TextEditingController();
 
-
-  /// Function that pops to LoginScreen
+  /// Navigates back to the login screen.
+  ///
+  /// This function uses the GoRouter package to navigate back to the login screen.
   void _toLogin() => context.pop();
+
+  /// Handles the registration action.
+  ///
+  /// This function retrieves the user input from the controllers, creates a
+  /// [RegistrationParams] object, and calls the register method on the [AuthScope] of
+  /// the current context. If the current state is [RegisterLoading], this function does nothing.
+  void _register() {
+    if (AuthScope.stateOf(context) is RegisterLoading) return;
+
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final phone = _phoneController.text;
+    final name = _nameController.text;
+    final params = RegistrationParams(
+      email: email,
+      password: password,
+      name: name,
+      phone: phone,
+      role: 'tenant',
+      lastName: 'lastName',
+    );
+
+    AuthScope.of(context).register(params);
+  }
+
+  /// Builds the child widget for the register button.
+  ///
+  /// Returns a [CupertinoActivityIndicator] if the current state is [RegisterLoading],
+  /// otherwise it returns a [Text] widget with 'Зарегистрироваться'.
+  Widget _buildRegisterButtonChild() => AuthScope.stateOf(context) is RegisterLoading
+      ? const CupertinoActivityIndicator(color: Colors.white)
+      : const Text('Зарегистрироваться');
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -42,15 +101,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
               20.h,
-              AppTextField(controller: emailController, hintText: 'Электронная почта'),
+              AppTextField(controller: _emailController, hintText: 'Электронная почта'),
               12.h,
-              AppTextField(controller: phoneController, hintText: 'Номер телефона'),
+              AppTextField(controller: _phoneController, hintText: 'Номер телефона'),
               12.h,
-              AppTextField(controller: nameController, hintText: 'Имя'),
+              AppTextField(controller: _nameController, hintText: 'Имя'),
               12.h,
-              AppTextField(controller: passwordController, hintText: 'Пароль'),
+              AppTextField(controller: _passwordController, hintText: 'Пароль'),
               12.h,
-              AppTextField(controller: confirmPasswordController, hintText: 'Повторите пароль'),
+              AppTextField(controller: _confirmPasswordController, hintText: 'Повторите пароль'),
               Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
             ],
           ),
@@ -60,11 +119,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const AppButton(text: 'Зарегистрироваться'),
+              AppButton(onPressed: _register, child: _buildRegisterButtonChild(),width: double.maxFinite,),
               10.h,
               TextButton(onPressed: _toLogin, child: const Text('Войти')),
             ],
           ),
         ),
       );
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _phoneController.dispose();
+    _nameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 }

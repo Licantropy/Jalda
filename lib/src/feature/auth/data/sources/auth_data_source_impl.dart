@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:jalda/src/feature/auth/data/dto/token_pair_dto.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
@@ -23,7 +24,7 @@ final class AuthDataSourceImpl implements AuthDataSource {
       );
       return TokenPairDto.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      print('LOGIN ERROR: $e');
+      log('LOGIN ERROR: $e');
       rethrow;
     }
   }
@@ -55,7 +56,7 @@ final class AuthDataSourceImpl implements AuthDataSource {
       );
       return TokenPairDto.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      print('REGISTRATION ERROR: $e');
+      log('REGISTRATION ERROR: $e');
       rethrow;
     }
   }

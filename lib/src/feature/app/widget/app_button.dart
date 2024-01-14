@@ -36,7 +36,7 @@ class AppButton extends StatelessWidget {
   /// Outer margin
   final EdgeInsetsGeometry? margin;
 
-  /// Roundning
+  /// Rounding
   final double borderRadius;
 
   /// Color

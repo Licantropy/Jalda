@@ -1,15 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/app/widget/app_text_field.dart';
 import 'package:jalda/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
+import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
 
+/// A StatefulWidget that provides a user interface for login.
 ///
+/// This screen allows users to enter their email and password to log in. It includes
+/// text fields for email and password input, and buttons for login and navigation to
+/// the registration screen.
 class LoginScreen extends StatefulWidget {
-  /// Login screen to authorize the user
+  /// Creates a LoginScreen widget.
+  ///
+  /// The [key] argument is passed to the superclass for widget identification.
   const LoginScreen({super.key});
 
   @override
@@ -17,25 +24,50 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  /// Email controller to hold the value of TextField
+  /// Controller for the email input field.
+  ///
+  /// This controller manages the text being input into the email field, allowing
+  /// retrieval and listening for changes.
   final _emailController = TextEditingController();
 
-  /// Controller to hold the value of TextField
+  /// Controller for the password input field.
+  ///
+  /// This controller manages the text being input into the password field, allowing
+  /// retrieval and listening for changes.
   final _passwordController = TextEditingController();
 
-  /// Function that routes to RegistrationScreen
+  /// Navigates to the registration screen.
+  ///
+  /// This function uses the GoRouter package to navigate to the '/registration' route.
   void _toRegister() => context.go('/registration');
 
-  /// Function that routes to RegistrationScreen
+  /// Navigates to the home screen.
+  ///
+  /// This function uses the GoRouter package to navigate to the '/home' route.
   void _toHomeScreen() => context.go('/home');
 
+  /// Handles the login action.
+  ///
+  /// This function retrieves the email and password from their respective controllers,
+  /// creates a [LoginParams] object, and calls the login method on the [AuthScope] of
+  /// the current context. If the current state is [LoginLoading], this function does nothing.
   void _login() {
+    if (AuthScope.stateOf(context) is LoginLoading) return;
     final email = _emailController.text;
     final password = _passwordController.text;
-    final loginParams = LoginParams(email: email, password: password);
+    final params = LoginParams(email: email, password: password);
 
-    context.read<AuthBloc>().add(LoginRequested(loginParams));
+    AuthScope.of(context).login(params);
   }
+
+  /// Builds the child widget for the login button.
+  ///
+  /// Returns a [CupertinoActivityIndicator] if the current state is [LoginLoading],
+  /// otherwise it returns a [Text] widget with 'Войти'.
+  Widget _buildLoginButtonChild() =>
+      AuthScope.stateOf(context) is LoginLoading
+          ? const CupertinoActivityIndicator(color: Colors.white)
+          : const Text('Войти');
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -47,10 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
                 20.h,
-                AppTextField(
-                  controller: _emailController,
-                  hintText: 'Электронная почта',
-                ),
+                AppTextField(controller: _emailController, hintText: 'Электронная почта'),
                 12.h,
                 AppTextField(controller: _passwordController, hintText: 'Пароль'),
                 Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
@@ -63,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppButton(onPressed: _login, text: 'Войти'),
+              AppButton(width: double.maxFinite, onPressed: _login, child: _buildLoginButtonChild()),
               10.h,
               TextButton(onPressed: _toRegister, child: const Text('Регистрация')),
             ],
@@ -73,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    // Disposes the text controllers when the widget is removed from the widget tree.
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
