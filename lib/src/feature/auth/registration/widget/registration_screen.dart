@@ -129,6 +129,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
+    // Disposes the text controllers when the widget is removed from the widget tree.
     _emailController.dispose();
     _phoneController.dispose();
     _nameController.dispose();
