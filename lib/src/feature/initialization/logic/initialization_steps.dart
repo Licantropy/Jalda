@@ -30,7 +30,7 @@ mixin InitializationSteps {
     'Rest client': (progress) async {
       final restClientDio = Dio(
         BaseOptions(
-          baseUrl: 'https://jalda.almatythinks.kz/api/',
+          baseUrl: '',
         ),
       );
       restClientDio.interceptors.add(

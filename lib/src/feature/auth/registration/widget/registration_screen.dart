@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
+import 'package:jalda/src/core/utils/validator.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/app/widget/app_text_field.dart';
+import 'package:jalda/src/feature/app/widget/app_text_form_field.dart';
 import 'package:jalda/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
@@ -59,6 +61,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ///
   /// This function uses the GoRouter package to navigate back to the login screen.
   void _toLogin() => context.pop();
+  late final PasswordMatchValidator _passwordMatchValidator;
+
+  bool _validatePasswordsMatch() {
+    final passwordMatchError = _passwordMatchValidator.validate();
+    if (passwordMatchError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(passwordMatchError)),
+      );
+      return false;
+    }
+    return true;
+  }
+
 
   /// Handles the registration action.
   ///
@@ -66,6 +81,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   /// [RegistrationParams] object, and calls the register method on the [AuthScope] of
   /// the current context. If the current state is [RegisterLoading], this function does nothing.
   void _register() {
+    if (!_validatePasswordsMatch()) return;
+
     if (AuthScope.stateOf(context) is RegisterLoading) return;
 
     final email = _emailController.text;
@@ -93,25 +110,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       : const Text('Зарегистрироваться');
 
   @override
+  void initState() {
+    super.initState();
+    _passwordMatchValidator = PasswordMatchValidator(
+      passwordController: _passwordController,
+      confirmPasswordController: _confirmPasswordController,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 120, 16, 0),
-          child: Column(
-            children: [
-              Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
-              20.h,
-              AppTextField(controller: _emailController, hintText: 'Электронная почта'),
-              12.h,
-              AppTextField(controller: _phoneController, hintText: 'Номер телефона'),
-              12.h,
-              AppTextField(controller: _nameController, hintText: 'Имя'),
-              12.h,
-              AppTextField(controller: _passwordController, hintText: 'Пароль'),
-              12.h,
-              AppTextField(controller: _confirmPasswordController, hintText: 'Повторите пароль'),
-              Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
+                20.h,
+                AppTextFormField(controller: _emailController, hintText: 'Электронная почта', validator: EmailValidator()),
+                12.h,
+                AppTextFormField(controller: _phoneController, hintText: 'Номер телефона', validator: PhoneNumberValidator()),
+                12.h,
+                AppTextFormField(controller: _nameController, hintText: 'Имя', validator: NameValidator()),
+                12.h,
+                AppTextFormField(controller: _passwordController, hintText: 'Пароль', validator: PasswordValidator()),
+                12.h,
+                AppTextFormField(controller: _confirmPasswordController, hintText: 'Повторите пароль', validator: PasswordValidator()),
+                Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
+              ],
+            ),
           ),
         ),
         bottomSheet: Padding(
@@ -119,7 +147,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppButton(onPressed: _register, child: _buildRegisterButtonChild(),width: double.maxFinite,),
+              AppButton(onPressed: _register, width: double.maxFinite, child: _buildRegisterButtonChild()),
               10.h,
               TextButton(onPressed: _toLogin, child: const Text('Войти')),
             ],

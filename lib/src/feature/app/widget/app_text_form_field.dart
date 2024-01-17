@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// A custom text field widget for general use.
+/// A custom text form field widget for use in forms.
 ///
-/// This widget wraps a `TextField` providing additional customization and styling.
-/// It is used for user input in non-form contexts.
-class AppTextField extends StatelessWidget {
+/// This widget wraps a `TextFormField` providing additional customization and styling.
+/// It is typically used within a form to allow users to input text data.
+class AppTextFormField extends StatelessWidget {
   /// Controls the text being edited.
   ///
   /// If the [controller] is null, this widget will create its own [TextEditingController].
@@ -12,7 +12,7 @@ class AppTextField extends StatelessWidget {
 
   /// Text that suggests what sort of input the field accepts.
   ///
-  /// Displayed on top of the `TextField` when it is empty and unfocused.
+  /// Displayed on top of the `TextFormField` when it is empty and unfocused.
   final String? hintText;
 
   /// An optional widget to display before the text input.
@@ -30,20 +30,27 @@ class AppTextField extends StatelessWidget {
   /// If null, there is no limit to the number of characters.
   final int? maxLength;
 
-  /// Creates an instance of [AppTextField].
-  const AppTextField({
+  /// Function that returns a string error message if the input is invalid.
+  ///
+  /// If the input is valid, it should return null.
+  final String? Function(String?) validator;
+
+  /// Creates an instance of [AppTextFormField].
+  const AppTextFormField({
     required this.controller,
-    this.hintText,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.maxLength,
+    required this.validator,
     super.key,
+    this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.maxLength,
   });
 
   @override
-  Widget build(BuildContext context) => TextField(
+  Widget build(BuildContext context) => TextFormField(
         controller: controller,
         maxLength: maxLength,
+        validator: validator,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
