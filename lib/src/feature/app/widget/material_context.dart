@@ -6,6 +6,7 @@ import 'package:jalda/src/feature/auth/registration/widget/registration_screen.d
 import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
 import 'package:jalda/src/feature/home/widget/home_screen.dart';
 import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
+import 'package:jalda/src/feature/splash/widget/splash_screen.dart';
 
 /// {@template material_context}
 /// [MaterialContext] is an entry point to the material context.
@@ -22,16 +23,23 @@ class MaterialContext extends StatelessWidget {
     final locale = SettingsScope.localeOf(context).locale;
     final _router = GoRouter(
       routes: [
-        GoRoute(
-          name: 'login',
-          path: '/',
-          builder: (context, state) => const AuthScope(child: LoginScreen()),
+        GoRoute(path: '/',name: 'splash',builder: (context, state) => const SplashScreen()),
+        ShellRoute(
+          builder: (context, state, child) => AuthScope(child: child),
           routes: [
             GoRoute(
-              name: 'registration',
-              path: 'registration',
-              builder: (context, state) => const AuthScope(child: RegistrationScreen()),
+              name: 'login',
+              path: '/login',
+              builder: (context, state) => const LoginScreen(),
+              routes: [
+                GoRoute(
+                  name: 'registration',
+                  path: 'registration',
+                  builder: (context, state) => const RegistrationScreen(),
+                ),
+              ]
             ),
+
           ],
         ),
         GoRoute(name: 'home', path: '/home', builder: (context, state) => const HomeScreen()),

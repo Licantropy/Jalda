@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Navigates to the registration screen.
   ///
   /// This function uses the GoRouter package to navigate to the '/registration' route.
-  void _toRegister() => context.go('/registration');
+  void _toRegister() => context.go('/login/registration');
 
   /// Handles the login action.
   ///

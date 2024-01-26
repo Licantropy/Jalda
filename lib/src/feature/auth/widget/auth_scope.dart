@@ -84,14 +84,10 @@ class _AuthScopeState extends State<AuthScope> implements AuthScopeController {
   }
 
   @override
-  void login(LoginParams params) {
-    _authBloc.add(LoginRequested(params));
-  }
+  void login(LoginParams params) => _authBloc.add(LoginRequested(params));
 
   @override
-  void register(RegistrationParams params) {
-    _authBloc.add(RegisterRequested(params));
-  }
+  void register(RegistrationParams params) => _authBloc.add(RegisterRequested(params));
 
   @override
   Widget build(BuildContext context) => BlocBuilder<AuthBloc, AuthState>(
