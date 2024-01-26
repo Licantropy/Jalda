@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
+import 'package:jalda/src/core/utils/input_masks.dart';
 import 'package:jalda/src/core/utils/validator.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
-import 'package:jalda/src/feature/app/widget/app_text_field.dart';
 import 'package:jalda/src/feature/app/widget/app_text_form_field.dart';
 import 'package:jalda/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
@@ -61,6 +60,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ///
   /// This function uses the GoRouter package to navigate back to the login screen.
   void _toLogin() => context.pop();
+
   late final PasswordMatchValidator _passwordMatchValidator;
 
   bool _validatePasswordsMatch() {
@@ -74,16 +74,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return true;
   }
 
-
   /// Handles the registration action.
   ///
   /// This function retrieves the user input from the controllers, creates a
   /// [RegistrationParams] object, and calls the register method on the [AuthScope] of
   /// the current context. If the current state is [RegisterLoading], this function does nothing.
   void _register() {
-    if (!_validatePasswordsMatch()) return;
-
-    if (AuthScope.stateOf(context) is RegisterLoading) return;
+    if (AuthScope.stateOf(context) is RegisterLoading || !_validatePasswordsMatch()) return;
 
     final email = _emailController.text;
     final password = _passwordController.text;
@@ -130,7 +127,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 20.h,
                 AppTextFormField(controller: _emailController, hintText: 'Электронная почта', validator: EmailValidator()),
                 12.h,
-                AppTextFormField(controller: _phoneController, hintText: 'Номер телефона', validator: PhoneNumberValidator()),
+                AppTextFormField(
+                  controller: _phoneController,
+                  inputFormatters: [CustomMaskTextInputFormatter.phoneFormatter()],
+                  keyboardType: TextInputType.phone,
+                  hintText: 'Номер телефона',
+                  validator: PhoneNumberValidator(),
+                ),
                 12.h,
                 AppTextFormField(controller: _nameController, hintText: 'Имя', validator: NameValidator()),
                 12.h,

@@ -20,6 +20,7 @@ void main() {
         logger.logZoneError,
       );
     },
+
     const LogOptions(),
   );
 }

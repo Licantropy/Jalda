@@ -30,7 +30,7 @@ mixin InitializationSteps {
     'Rest client': (progress) async {
       final restClientDio = Dio(
         BaseOptions(
-          baseUrl: '',
+          baseUrl: progress.environmentStore.baseUrl,
         ),
       );
       restClientDio.interceptors.add(

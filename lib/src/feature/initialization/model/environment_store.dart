@@ -7,4 +7,7 @@ class EnvironmentStore {
 
   /// The Sentry DSN.
   String get sentryDsn => const String.fromEnvironment('sentry_dsn');
+
+  /// Base url
+  String get baseUrl => const String.fromEnvironment('BASE_URL');
 }

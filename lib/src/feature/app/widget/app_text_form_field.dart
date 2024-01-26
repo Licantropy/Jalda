@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// A custom text form field widget for use in forms.
 ///
@@ -35,8 +36,22 @@ class AppTextFormField extends StatelessWidget {
   /// If the input is valid, it should return null.
   final String? Function(String?) validator;
 
+  /// The type of keyboard to use for editing the text.
+  ///
+  /// If null, the default keyboard type is used.
+  final TextInputType? keyboardType;
+
+  /// A list of [TextInputFormatter]s that will be applied in the order they
+  /// are provided to format the user input.
+  ///
+  /// Can be used to apply specific formatting rules (like masks) to the input.
+  final List<TextInputFormatter>? inputFormatters;
+
   /// Creates an instance of [AppTextFormField].
-  const AppTextFormField({
+  ///
+  /// This constructor requires a [TextEditingController] and a [validator] function,
+  /// while other parameters are optional and allow further customization.
+   const AppTextFormField({
     required this.controller,
     required this.validator,
     super.key,
@@ -44,6 +59,8 @@ class AppTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.maxLength,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -51,6 +68,8 @@ class AppTextFormField extends StatelessWidget {
         controller: controller,
         maxLength: maxLength,
         validator: validator,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
