@@ -66,10 +66,15 @@ class _AuthScopeState extends State<AuthScope> implements AuthScopeController {
   @override
   void initState() {
     super.initState();
-    _authBloc = AuthBloc(DependenciesScope.of(context).authRepository)
-      ..stream.listen((state) {
-        if (state is LoginSuccess || state is RegisterSuccess) context.go('/home');
-      });
+    _authBloc = AuthBloc(DependenciesScope.of(context).authRepository);
+    _authBloc.stream.listen((state) {
+      switch (state) {
+        case LoginSuccess() || RegisterSuccess():
+          context.go('/home');
+        default:
+          break;
+      }
+    });
   }
 
   @override
