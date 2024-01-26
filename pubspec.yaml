@@ -86,6 +86,7 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - .env/
 
 flutter_gen:
   output: lib/src/core/assets/generated
