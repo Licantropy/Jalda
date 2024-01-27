@@ -11,14 +11,14 @@ import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
 /// [AuthDataSourceImpl] and [TokenManagerDataSourceImpl] to manage authentication
 /// tokens and user credentials.
 class AuthRepository {
-  final AuthDataSourceImpl _auth;
+  final AuthDataSourceImpl _authDataSource;
   final TokenManagerDataSourceImpl _tokenManager;
 
   /// Constructs an instance of [AuthRepository].
   ///
   /// Requires instances of [AuthDataSourceImpl] and [TokenManagerDataSourceImpl]
   /// for handling authentication and token management operations.
-  AuthRepository(this._auth, this._tokenManager);
+  AuthRepository(this._authDataSource, this._tokenManager);
 
   /// Asynchronously logs in a user with the given [LoginParams].
   ///
@@ -29,7 +29,7 @@ class AuthRepository {
   /// Throws: Exception if login operation fails.
   Future<void> login(LoginParams params) async {
     try {
-      final tokens = await _auth.login(params: params);
+      final tokens = await _authDataSource.login(params: params);
       await _saveTokens(tokens.access, tokens.refresh);
     } catch (e) {
       log('Login Error: $e');
@@ -46,7 +46,7 @@ class AuthRepository {
   /// Throws: Exception if registration operation fails.
   Future<void> register(RegistrationParams params) async {
     try {
-      final tokens = await _auth.register(params: params);
+      final tokens = await _authDataSource.register(params: params);
       await _saveTokens(tokens.access, tokens.refresh);
     } catch (e) {
       log('Registration Error: $e');

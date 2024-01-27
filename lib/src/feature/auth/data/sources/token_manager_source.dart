@@ -24,7 +24,7 @@ final class TokenManagerDataSourceImpl extends PreferencesDao implements TokenMa
 
   PreferencesEntry<String> get _access => stringEntry('access_token');
 
-  PreferencesEntry<String> get _refresh => stringEntry('access_token');
+  PreferencesEntry<String> get _refresh => stringEntry('refresh_token');
 
   @override
   Future<void> saveAccessToken(String value) => _access.set(value);

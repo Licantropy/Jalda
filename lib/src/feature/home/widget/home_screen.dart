@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
+import 'package:jalda/src/feature/app/widget/app_button.dart';
+import 'package:jalda/src/feature/home/bloc/orders_bloc.dart';
+import 'package:jalda/src/feature/home/widget/orders_scope.dart';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -9,52 +13,69 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: SafeArea(
-          top: false,
-          child: Stack(
-            children: [
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: Material(
-                  elevation: 10,
-                  shape: const CircleBorder(),
-                  child: Padding(padding: 13.p, child: const Icon(Icons.pin_drop)),
-                ),
+  Widget build(BuildContext context) {
+    final state = OrdersScope.stateOf(context);
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+        top: false,
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: Material(
+                elevation: 10,
+                shape: const CircleBorder(),
+                child: Padding(padding: 13.p, child: const Icon(Icons.pin_drop)),
               ),
-              Positioned(
-                bottom: 20,
-                left: 20,
-                child: Material(
-                  elevation: 10,
-                  shape: const CircleBorder(),
-                  child: Padding(padding: 13.p, child: const Icon(Icons.menu)),
-                ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: Material(
+                elevation: 10,
+                shape: const CircleBorder(),
+                child: Padding(padding: 13.p, child: const Icon(Icons.menu)),
               ),
-              Positioned(
-                right: 0,
-                left: 0,
-                child: SafeArea(
-                  child: Container(
-                    margin: 10.p,
-                    padding: 10.vp,
-                    decoration: BoxDecoration(borderRadius: 25.r, color: Theme.of(context).colorScheme.primary),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [const Text('Почасово'), 20.w, const Text('Посуточно')],
-                    ),
+            ),
+            Positioned(
+              right: 0,
+              left: 0,
+              child: SafeArea(
+                child: Container(
+                  margin: 10.p,
+                  padding: 10.vp,
+                  decoration: BoxDecoration(borderRadius: 25.r, color: Theme.of(context).colorScheme.primary),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [const Text('Почасово'), 20.w, const Text('Посуточно')],
                   ),
                 ),
               ),
-              Container(),
-            ],
-          ),
+            ),
+            Column(
+              children: [
+                120.h,
+                AppButton(text: 'fetch', onPressed: () => OrdersScope.of(context).fetchDailyFlats()),
+                state.map(
+                    initial: (_) => const ColoredBox(color: Colors.red),
+                    loading: (_) => const Center(child: CircularProgressIndicator()),
+                    success: (state) => Container(
+                          child: Center(
+                            child: Text(state.flat.first.description),
+                          ),
+                        ),
+                    error: (error) => Center(child: Text(error.message))),
+              ],
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 // /// {@template sample_page}

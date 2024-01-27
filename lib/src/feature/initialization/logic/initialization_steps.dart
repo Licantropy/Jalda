@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:jalda/src/core/utils/interceptors.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
 import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
+import 'package:jalda/src/feature/home/data/sources/orders_data_source_impl.dart';
+import 'package:jalda/src/feature/home/domain/repositories/orders_repository.dart';
 import 'package:jalda/src/feature/initialization/model/initialization_progress.dart';
 import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
@@ -27,18 +30,16 @@ mixin InitializationSteps {
       final sharedPreferences = await SharedPreferences.getInstance();
       progress.dependencies.sharedPreferences = sharedPreferences;
     },
+    'Token Manager': (progress) async {
+      final tokenManagerDataSource = TokenManagerDataSourceImpl(sharedPreferences: progress.dependencies.sharedPreferences);
+      progress.dependencies.tokenManagerDataSource = tokenManagerDataSource;
+    },
     'Rest client': (progress) async {
-      final restClientDio = Dio(
-        BaseOptions(
-          baseUrl: progress.environmentStore.baseUrl,
-        ),
-      );
-      restClientDio.interceptors.add(
-        PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-        ),
-      );
+      final restClientDio = Dio(BaseOptions(baseUrl: progress.environmentStore.baseUrl));
+
+      restClientDio.interceptors.add(TokenInterceptor(progress.dependencies.tokenManagerDataSource));
+
+      restClientDio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
 
       progress.dependencies.restClientDio = restClientDio;
     },
@@ -58,9 +59,14 @@ mixin InitializationSteps {
     },
     'Auth Repository': (progress) async {
       final authDataSource = AuthDataSourceImpl(progress.dependencies.restClientDio);
-      final tokenManagerDataSource = TokenManagerDataSourceImpl(sharedPreferences: progress.dependencies.sharedPreferences);
 
-      progress.dependencies.authRepository = AuthRepository(authDataSource, tokenManagerDataSource);
+      progress.dependencies.authRepository = AuthRepository(authDataSource, progress.dependencies.tokenManagerDataSource);
+    },
+    'Orders Repository': (progress) async {
+      final ordersDataSource = OrdersDataSourceImpl(progress.dependencies.restClientDio);
+
+      progress.dependencies.ordersRepository = OrdersRepository(ordersDataSource);
     },
   };
 }
+

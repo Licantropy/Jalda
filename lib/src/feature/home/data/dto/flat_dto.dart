@@ -18,10 +18,13 @@ class FlatDto with _$FlatDto {
     required int floor,
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
-    required String availabilityStatus,
+    @JsonKey(name: 'availability_status') required String availabilityStatus,
     required List<ImageDto> photos,
   }) = _FlatDto;
 
   ///
   factory FlatDto.fromJson(Map<String, dynamic> json) => _$FlatDtoFromJson(json);
+
+  static List<FlatDto> fromJsonList(List<dynamic> jsonList) =>
+      jsonList.map<FlatDto>((jsonItem) => FlatDto.fromJson(jsonItem as Map<String, dynamic>)).toList();
 }
