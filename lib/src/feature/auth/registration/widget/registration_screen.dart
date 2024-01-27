@@ -104,7 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   /// otherwise it returns a [Text] widget with 'Зарегистрироваться'.
   Widget _buildRegisterButtonChild() => AuthScope.stateOf(context) is RegisterLoading
       ? const CupertinoActivityIndicator(color: Colors.white)
-      : const Text('Зарегистрироваться');
+      : const Text('Зарегистрироваться',style: TextStyle(color: Colors.white));
 
   @override
   void initState() {
@@ -123,7 +123,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
+                Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
                 20.h,
                 AppTextFormField(controller: _emailController, hintText: 'Электронная почта', validator: EmailValidator()),
                 12.h,

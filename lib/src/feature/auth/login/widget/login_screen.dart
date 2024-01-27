@@ -64,7 +64,6 @@ class _LoginScreenState extends State<LoginScreen> {
       final params = LoginParams(email: email, password: password);
 
       AuthScope.of(context).login(params);
-
     }
   }
 
@@ -72,9 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
   ///
   /// Returns a [CupertinoActivityIndicator] if the current state is [LoginLoading],
   /// otherwise it returns a [Text] widget with 'Войти'.
-  Widget _buildLoginButtonChild() =>
-      AuthScope.stateOf(context) is LoginLoading ? const CupertinoActivityIndicator(color: Colors.white) : const Text('Войти');
-
+  Widget _buildLoginButtonChild() => AuthScope.stateOf(context) is LoginLoading
+      ? const CupertinoActivityIndicator(color: Colors.white)
+      : const Text('Войти', style: TextStyle(color: Colors.white));
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -86,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  Container(alignment: Alignment.center, color: Colors.orange, height: 150, width: 150, child: const Text('Icon')),
+                  Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
                   20.h,
                   AppTextFormField(controller: _emailController, validator: EmailValidator(), hintText: 'Электронная почта'),
                   12.h,
