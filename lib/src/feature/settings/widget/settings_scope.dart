@@ -59,7 +59,7 @@ class SettingsScope extends StatefulWidget {
   /// The child widget.
   final Widget child;
 
-  /// Get the [SettingsScopeController] of the sest [SettingsScope] ancestor.
+  /// Get the [SettingsScopeController] of the closest [SettingsScope] ancestor.
   static SettingsScopeController of(
     BuildContext context, {
     bool listen = true,

@@ -42,7 +42,7 @@ class MaterialContext extends StatelessWidget {
     );
 
     return MaterialApp.router(
-      theme: theme.lightTheme,
+      theme: theme.lightTheme.copyWith(bottomSheetTheme: BottomSheetThemeData(surfaceTintColor: theme.lightTheme.scaffoldBackgroundColor)),
       darkTheme: theme.darkTheme,
       themeMode: theme.mode,
       localizationsDelegates: Localization.localizationDelegates,
