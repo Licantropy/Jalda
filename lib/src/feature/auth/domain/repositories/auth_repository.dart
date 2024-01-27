@@ -4,27 +4,27 @@ import 'package:jalda/src/feature/auth/data/models/token_pair_model.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
-import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
+import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 
 /// [AuthRepository] is a class responsible for handling authentication operations.
 ///
 /// This class provides functionality for user login and registration, utilizing
-/// [AuthDataSourceImpl] and [TokenManagerDataSourceImpl] to manage authentication
+/// [AuthDataSourceImpl] and [TokenManagerImpl] to manage authentication
 /// tokens and user credentials.
 class AuthRepository {
   final AuthDataSourceImpl _authDataSource;
-  final TokenManagerDataSourceImpl _tokenManager;
+  final TokenManagerImpl _tokenManager;
 
   /// Constructs an instance of [AuthRepository].
   ///
-  /// Requires instances of [AuthDataSourceImpl] and [TokenManagerDataSourceImpl]
+  /// Requires instances of [AuthDataSourceImpl] and [TokenManagerImpl]
   /// for handling authentication and token management operations.
   AuthRepository(this._authDataSource, this._tokenManager);
 
   /// Asynchronously logs in a user with the given [LoginParams].
   ///
   /// This method attempts to login the user by calling the `login` method of [AuthDataSourceImpl].
-  /// If successful, it saves the access and refresh tokens using [TokenManagerDataSourceImpl].
+  /// If successful, it saves the access and refresh tokens using [TokenManagerImpl].
   /// In case of an error, it logs the error and rethrows it.
   ///
   /// Throws: Exception if login operation fails.
@@ -42,7 +42,7 @@ class AuthRepository {
   /// Asynchronously registers a new user with the given [RegistrationParams].
   ///
   /// This method attempts to register the user by calling the `register` method of [AuthDataSourceImpl].
-  /// If successful, it saves the access and refresh tokens using [TokenManagerDataSourceImpl].
+  /// If successful, it saves the access and refresh tokens using [TokenManagerImpl].
   /// In case of an error, it logs the error and rethrows it.
   ///
   /// Throws: Exception if registration operation fails.
@@ -57,7 +57,7 @@ class AuthRepository {
     }
   }
 
-  /// Saves access and refresh tokens using [TokenManagerDataSourceImpl].
+  /// Saves access and refresh tokens using [TokenManagerImpl].
   ///
   /// After saving, it retrieves the access token to confirm the operation and logs it.
   /// This method is private and only used internally within [AuthRepository].

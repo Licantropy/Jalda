@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
+import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
 import 'package:jalda/src/feature/home/domain/repositories/orders_repository.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
@@ -16,7 +16,7 @@ base class Dependencies {
   late final SharedPreferences sharedPreferences;
 
   /// Token manager
-  late final TokenManagerDataSourceImpl tokenManagerDataSource;
+  late final TokenManagerImpl tokenManager;
 
   /// Rest client
   late final Dio restClientDio;

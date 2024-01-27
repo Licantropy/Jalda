@@ -4,6 +4,7 @@ import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/home/bloc/orders_bloc.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
+import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -33,10 +34,13 @@ class HomeScreen extends StatelessWidget {
             Positioned(
               bottom: 20,
               left: 20,
-              child: Material(
-                elevation: 10,
-                shape: const CircleBorder(),
-                child: Padding(padding: 13.p, child: const Icon(Icons.menu)),
+              child: GestureDetector(
+                onTap: () => DependenciesScope.of(context).tokenManager.deleteTokens(),
+                child: Material(
+                  elevation: 10,
+                  shape: const CircleBorder(),
+                  child: Padding(padding: 13.p, child: const Icon(Icons.menu)),
+                ),
               ),
             ),
             Positioned(

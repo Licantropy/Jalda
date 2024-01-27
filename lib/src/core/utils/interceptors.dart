@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
+import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 
 class TokenInterceptor extends Interceptor {
-  final TokenManagerDataSource _tokenManager;
+  final ITokenManager _tokenManager;
 
   TokenInterceptor(this._tokenManager);
 

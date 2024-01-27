@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:jalda/src/core/utils/interceptors.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
-import 'package:jalda/src/feature/auth/data/sources/token_manager_source.dart';
+import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
 import 'package:jalda/src/feature/home/data/sources/orders_data_source_impl.dart';
 import 'package:jalda/src/feature/home/domain/repositories/orders_repository.dart';
@@ -31,13 +31,13 @@ mixin InitializationSteps {
       progress.dependencies.sharedPreferences = sharedPreferences;
     },
     'Token Manager': (progress) async {
-      final tokenManagerDataSource = TokenManagerDataSourceImpl(sharedPreferences: progress.dependencies.sharedPreferences);
-      progress.dependencies.tokenManagerDataSource = tokenManagerDataSource;
+      final tokenManager = TokenManagerImpl(sharedPreferences: progress.dependencies.sharedPreferences);
+      progress.dependencies.tokenManager = tokenManager;
     },
     'Rest client': (progress) async {
       final restClientDio = Dio(BaseOptions(baseUrl: progress.environmentStore.baseUrl));
 
-      restClientDio.interceptors.add(TokenInterceptor(progress.dependencies.tokenManagerDataSource));
+      restClientDio.interceptors.add(TokenInterceptor(progress.dependencies.tokenManager));
 
       restClientDio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
 
@@ -60,7 +60,7 @@ mixin InitializationSteps {
     'Auth Repository': (progress) async {
       final authDataSource = AuthDataSourceImpl(progress.dependencies.restClientDio);
 
-      progress.dependencies.authRepository = AuthRepository(authDataSource, progress.dependencies.tokenManagerDataSource);
+      progress.dependencies.authRepository = AuthRepository(authDataSource, progress.dependencies.tokenManager);
     },
     'Orders Repository': (progress) async {
       final ordersDataSource = OrdersDataSourceImpl(progress.dependencies.restClientDio);

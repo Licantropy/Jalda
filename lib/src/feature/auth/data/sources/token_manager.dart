@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:jalda/src/core/utils/preferences_dao.dart';
 
 ///
-abstract interface class TokenManagerDataSource {
+abstract interface class ITokenManager {
   ///
   FutureOr<void> saveAccessToken(String value);
 
@@ -15,12 +15,15 @@ abstract interface class TokenManagerDataSource {
 
   ///
   FutureOr<String?> getRefreshToken();
+
+  ///
+  FutureOr<void> deleteTokens();
 }
 
 ///
-final class TokenManagerDataSourceImpl extends PreferencesDao implements TokenManagerDataSource {
+final class TokenManagerImpl extends PreferencesDao implements ITokenManager {
   ///
-  TokenManagerDataSourceImpl({required super.sharedPreferences});
+  TokenManagerImpl({required super.sharedPreferences});
 
   PreferencesEntry<String> get _access => stringEntry('access_token');
 
@@ -32,11 +35,15 @@ final class TokenManagerDataSourceImpl extends PreferencesDao implements TokenMa
   @override
   Future<void> saveRefreshToken(String value) => _refresh.set(value);
 
-
   @override
   Future<String?> getAccessToken() async => _access.read();
 
   @override
   Future<String?> getRefreshToken() async => _refresh.read();
 
+  @override
+  Future<void> deleteTokens() async {
+    await _access.remove();
+    await _refresh.remove();
+  }
 }
