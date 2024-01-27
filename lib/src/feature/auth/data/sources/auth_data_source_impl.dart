@@ -57,4 +57,15 @@ final class AuthDataSourceImpl implements AuthDataSource {
       rethrow;
     }
   }
+
+  @override
+  FutureOr<TokenPairDto> refresh(String refreshToken) async {
+    try {
+      final response = await _dio.post('auth/refresh', data: {'refresh_token': refreshToken});
+      return TokenPairDto.fromJson(response.data as Map<String, dynamic>);
+    } catch (e) {
+      log('REGISTRATION ERROR: $e');
+      rethrow;
+    }
+  }
 }

@@ -36,4 +36,6 @@ abstract interface class AuthDataSource {
   /// Returns:
   ///   [FutureOr<TokenPairDto>]: The token pair data transfer object containing access and refresh tokens.
   FutureOr<TokenPairDto> register({required RegistrationParams params});
+
+  FutureOr<TokenPairDto> refresh(String refreshToken);
 }

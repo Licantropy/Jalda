@@ -38,5 +38,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         rethrow;
       }
     });
+
+    on<TokenRefreshRequested>((event, emit) async {
+      emit(TokenRefreshLoading());
+      try {
+        await authRepository.refresh(event.refreshToken);
+        emit(TokenRefreshSuccess());
+      } catch (e) {
+        emit(TokenRefreshFailure(e.toString()));
+        rethrow;
+      }
+    });
+
   }
+
 }

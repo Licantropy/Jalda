@@ -1,7 +1,6 @@
 part of 'auth_bloc.dart';
 
 @immutable
-///
 sealed class AuthState {}
 
 ///
@@ -17,7 +16,8 @@ class LoginSuccess extends AuthState {}
 class LoginFailure extends AuthState {
   ///
   final String error;
-///
+
+  ///
   LoginFailure(this.error);
 }
 
@@ -34,4 +34,17 @@ class RegisterFailure extends AuthState {
 
   ///
   RegisterFailure(this.error);
+}
+
+///
+class TokenRefreshLoading extends AuthState {}
+
+///
+class TokenRefreshSuccess extends AuthState {}
+
+///
+class TokenRefreshFailure extends AuthState {
+  final String error;
+
+  TokenRefreshFailure(this.error);
 }

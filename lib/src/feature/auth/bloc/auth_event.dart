@@ -26,3 +26,11 @@ class RegisterRequested extends AuthEvent {
   RegisterRequested(this.params);
 }
 
+///
+@immutable
+class TokenRefreshRequested extends AuthEvent {
+  ///
+  final String refreshToken;
+///
+  TokenRefreshRequested(this.refreshToken);
+}
