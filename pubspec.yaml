@@ -81,7 +81,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  generate: true
+  generate: false
 
   assets:
     # Add assets from the images directory to the application.

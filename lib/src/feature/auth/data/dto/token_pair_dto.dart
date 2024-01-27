@@ -8,8 +8,10 @@ part 'token_pair_dto.g.dart';
 class TokenPairDto with _$TokenPairDto {
   ///
   const factory TokenPairDto({
-    @JsonKey(name: 'access_token') required String access,
-    @JsonKey(name: 'refresh_token')required String refresh,
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'refresh_token')required String refreshToken,
+    @JsonKey(name: 'access_token_expires_in')required double expiresIn,
+    @JsonKey(name: 'role')required String role,
   }) = _TokenPairDto;
 
 

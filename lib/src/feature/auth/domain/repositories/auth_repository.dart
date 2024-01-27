@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:jalda/src/feature/auth/data/models/token_pair_model.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
@@ -29,8 +30,9 @@ class AuthRepository {
   /// Throws: Exception if login operation fails.
   Future<void> login(LoginParams params) async {
     try {
-      final tokens = await _authDataSource.login(params: params);
-      await _saveTokens(tokens.access, tokens.refresh);
+      final tokensDto = await _authDataSource.login(params: params);
+      final tokensModel = TokenPairModel.fromDto(tokensDto);
+      await _saveTokens(tokensModel);
     } catch (e) {
       log('Login Error: $e');
       rethrow;
@@ -46,8 +48,9 @@ class AuthRepository {
   /// Throws: Exception if registration operation fails.
   Future<void> register(RegistrationParams params) async {
     try {
-      final tokens = await _authDataSource.register(params: params);
-      await _saveTokens(tokens.access, tokens.refresh);
+      final tokensDto = await _authDataSource.register(params: params);
+      final tokensModel = TokenPairModel.fromDto(tokensDto);
+      await _saveTokens(tokensModel);
     } catch (e) {
       log('Registration Error: $e');
       rethrow;
@@ -58,9 +61,9 @@ class AuthRepository {
   ///
   /// After saving, it retrieves the access token to confirm the operation and logs it.
   /// This method is private and only used internally within [AuthRepository].
-  Future<void> _saveTokens(String accessToken, String refreshToken) async {
-    await _tokenManager.saveAccessToken(accessToken);
-    await _tokenManager.saveRefreshToken(refreshToken);
+  Future<void> _saveTokens(TokenPairModel tokenModel) async {
+    await _tokenManager.saveAccessToken(tokenModel.accessToken);
+    await _tokenManager.saveRefreshToken(tokenModel.refreshToken);
     final retrievedToken = await _tokenManager.getAccessToken();
     log('RECEIVED TOKEN: $retrievedToken');
   }

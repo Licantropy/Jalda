@@ -18,8 +18,6 @@ final class AuthDataSourceImpl implements AuthDataSource {
   /// Requires an instance of Dio ([_dio]) for making HTTP requests.
   AuthDataSourceImpl(this._dio);
 
-
-
   /// Asynchronously logs in a user with the provided [LoginParams].
   ///
   /// Performs a POST request to 'auth/login' with the data from [LoginParams].
@@ -32,10 +30,7 @@ final class AuthDataSourceImpl implements AuthDataSource {
     required LoginParams params,
   }) async {
     try {
-      final response = await _dio.post(
-        'auth/login',
-        data: params.toData(),
-      );
+      final response = await _dio.post('auth/login', data: params.toData());
       return TokenPairDto.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
       log('LOGIN ERROR: $e');
@@ -55,10 +50,7 @@ final class AuthDataSourceImpl implements AuthDataSource {
     required RegistrationParams params,
   }) async {
     try {
-      final response = await _dio.post(
-        'auth/registration',
-        data: params.toData(),
-      );
+      final response = await _dio.post('auth/registration', data: params.toData());
       return TokenPairDto.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
       log('REGISTRATION ERROR: $e');
