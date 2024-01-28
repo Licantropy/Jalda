@@ -11,13 +11,8 @@ class OrdersRepository {
 
   ///
   Future<List<FlatModel>> getDailyOrders() async {
-    try {
-      final dtoList = await _dataSource.getDailyOrders();
-      return dtoList.map((dto) => FlatModel.fromDto(dto)).toList();
-    } catch (e) {
-      print('Error occurred while fetching daily orders: $e');
-      rethrow;
-    }
+    final dtoList = await _dataSource.getDailyOrders();
+    return dtoList.map((dto) => FlatModel.fromDto(dto)).toList();
   }
 
   ///

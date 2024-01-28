@@ -23,9 +23,6 @@ class FlatModel with _$FlatModel {
     required List<ImageModel> photos,
   }) = _FlatModel;
 
-  ///
-  factory FlatModel.fromJson(Map<String, dynamic> json) => _$FlatModelFromJson(json);
-
   factory FlatModel.fromDto(FlatDto dto) => FlatModel(
       id: dto.id,
       name: dto.name,

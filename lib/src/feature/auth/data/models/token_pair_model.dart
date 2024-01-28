@@ -17,7 +17,5 @@ class TokenPairModel with _$TokenPairModel {
   TokenPairModel._();
 
   ///
-  factory TokenPairModel.fromJson(Map<String, Object?> json) => _$TokenPairModelFromJson(json);
-
   factory TokenPairModel.fromDto(TokenPairDto dto) => TokenPairModel(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
 }
