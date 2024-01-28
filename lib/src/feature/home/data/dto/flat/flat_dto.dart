@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jalda/src/feature/home/data/dto/image_dto.dart';
+import 'package:jalda/src/feature/home/data/dto/image/image_dto.dart';
 
 part 'flat_dto.freezed.dart';
 

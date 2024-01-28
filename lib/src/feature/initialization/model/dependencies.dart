@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
-import 'package:jalda/src/feature/home/domain/repositories/orders_repository.dart';
+import 'package:jalda/src/feature/home/domain/repositories/flat_repository.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,8 +27,8 @@ base class Dependencies {
   /// AuthRepository
   late final AuthRepository authRepository;
 
-  /// OrdersRepository
-  late final OrdersRepository ordersRepository;
+  /// FlatRepository
+  late final FlatRepository flatRepository;
 }
 
 /// {@template initialization_result}

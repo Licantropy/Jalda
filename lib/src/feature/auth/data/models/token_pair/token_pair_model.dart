@@ -1,9 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jalda/src/feature/auth/data/dto/token_pair_dto.dart';
+import 'package:jalda/src/feature/auth/data/dto/token_pair/token_pair_dto.dart';
 
 part 'token_pair_model.freezed.dart';
 
-part 'token_pair_model.g.dart';
 
 ///
 @freezed

@@ -5,8 +5,8 @@ import 'package:jalda/src/core/utils/interceptors.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';
 import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
-import 'package:jalda/src/feature/home/data/sources/orders_data_source_impl.dart';
-import 'package:jalda/src/feature/home/domain/repositories/orders_repository.dart';
+import 'package:jalda/src/feature/home/data/sources/flat_data_source_impl.dart';
+import 'package:jalda/src/feature/home/domain/repositories/flat_repository.dart';
 import 'package:jalda/src/feature/initialization/model/initialization_progress.dart';
 import 'package:jalda/src/feature/settings/data/locale_datasource.dart';
 import 'package:jalda/src/feature/settings/data/settings_repository.dart';
@@ -62,10 +62,10 @@ mixin InitializationSteps {
 
       progress.dependencies.authRepository = AuthRepository(authDataSource, progress.dependencies.tokenManager);
     },
-    'Orders Repository': (progress) async {
-      final ordersDataSource = OrdersDataSourceImpl(progress.dependencies.restClientDio);
+    'Flat Repository': (progress) async {
+      final flatDataSource = FlatDataSourceImpl(progress.dependencies.restClientDio);
 
-      progress.dependencies.ordersRepository = OrdersRepository(ordersDataSource);
+      progress.dependencies.flatRepository = FlatRepository(flatDataSource);
     },
   };
 }

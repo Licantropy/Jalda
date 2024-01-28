@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:jalda/src/feature/auth/data/models/token_pair_model.dart';
+import 'package:jalda/src/feature/auth/data/models/token_pair/token_pair_model.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source_impl.dart';

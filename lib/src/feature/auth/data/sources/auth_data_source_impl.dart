@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:jalda/src/feature/auth/data/dto/token_pair_dto.dart';
+import 'package:jalda/src/feature/auth/data/dto/token_pair/token_pair_dto.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/data/sources/auth_data_source.dart';

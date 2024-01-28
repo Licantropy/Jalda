@@ -7,4 +7,6 @@ class OrdersEvent with _$OrdersEvent {
   const factory OrdersEvent.fetchDailyFlats() = FetchDailyFlats;
 
   const factory OrdersEvent.fetchHourlyFlats() = FetchHourlyFlats;
+
+  const factory OrdersEvent.fetchSingleFlat(int id) = FetchSingleFlat;
 }

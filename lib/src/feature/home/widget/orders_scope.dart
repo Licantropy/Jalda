@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/utils/extensions/context_extension.dart';
 import 'package:jalda/src/feature/home/bloc/orders_bloc.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
@@ -9,6 +8,8 @@ abstract class OrdersScopeController {
   void fetchDailyFlats();
 
   void fetchHourlyFlats();
+
+  void fetchSingleFlat(int id);
 }
 
 class OrdersScope extends StatefulWidget {
@@ -31,7 +32,7 @@ class _OrdersScopeState extends State<OrdersScope> implements OrdersScopeControl
   @override
   void initState() {
     super.initState();
-    _ordersBloc = OrdersBloc(DependenciesScope.of(context).ordersRepository);
+    _ordersBloc = OrdersBloc(DependenciesScope.of(context).flatRepository);
   }
 
   @override
@@ -45,6 +46,9 @@ class _OrdersScopeState extends State<OrdersScope> implements OrdersScopeControl
 
   @override
   void fetchHourlyFlats() => _ordersBloc.add(const FetchHourlyFlats());
+
+  @override
+  void fetchSingleFlat(int id) => _ordersBloc.add(FetchSingleFlat(id));
 
   @override
   Widget build(BuildContext context) => BlocBuilder<OrdersBloc, OrdersState>(

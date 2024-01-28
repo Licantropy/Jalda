@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
-import 'package:jalda/src/feature/home/bloc/orders_bloc.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 
@@ -67,12 +65,9 @@ class HomeScreen extends StatelessWidget {
                 state.map(
                     initial: (_) => const ColoredBox(color: Colors.red),
                     loading: (_) => const Center(child: CircularProgressIndicator()),
-                    success: (state) => Container(
-                          child: Center(
-                            child: Text(state.flat.first.description),
-                          ),
-                        ),
-                    error: (error) => Center(child: Text(error.message))),
+                    success: (state) => Center(child: Text(state.flat.toString())),
+                    error: (error) => Center(child: Text(error.message)),
+                    successFlat: (_) => const Offstage()),
               ],
             ),
           ],

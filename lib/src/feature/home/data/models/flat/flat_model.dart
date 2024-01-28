@@ -1,10 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:jalda/src/feature/home/data/dto/flat_dto.dart';
-import 'package:jalda/src/feature/home/data/models/image_model.dart';
+import 'package:jalda/src/feature/home/data/dto/flat/flat_dto.dart';
+import 'package:jalda/src/feature/home/data/models/image/image_model.dart';
 
 part 'flat_model.freezed.dart';
 
-part 'flat_model.g.dart';
 
 @freezed
 class FlatModel with _$FlatModel {

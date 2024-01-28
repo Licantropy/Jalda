@@ -8,5 +8,7 @@ sealed class OrdersState with _$OrdersState {
 
   const factory OrdersState.success(List<FlatModel> flat) = _Success;
 
+  const factory OrdersState.successFlat(FlatModel flat) = _SuccessFlat;
+
   const factory OrdersState.error(String message) = _Error;
 }
