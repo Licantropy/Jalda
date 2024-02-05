@@ -3,6 +3,8 @@ import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
 
 /// {@template sample_page}
 /// SamplePage widget
@@ -13,6 +15,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+
+    const CameraPosition _kGooglePlex = CameraPosition(
+      target: LatLng(37.42796133580664, -122.085749655962),
+      zoom: 14.4746,
+    );
+    const CameraPosition _kLake = CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(37.43296265331129, -122.08832357078792),
+        tilt: 59.440717697143555,
+        zoom: 19.151926040649414);
+
     final state = OrdersScope.stateOf(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -20,6 +34,13 @@ class HomeScreen extends StatelessWidget {
         top: false,
         child: Stack(
           children: [
+            GoogleMap(
+              mapType: MapType.hybrid,
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
             Positioned(
               bottom: 20,
               right: 20,
@@ -58,200 +79,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              children: [
-                120.h,
-                AppButton(text: 'fetch', onPressed: () => OrdersScope.of(context).fetchDailyFlats()),
-                state.map(
-                  initial: (_) => const ColoredBox(color: Colors.red),
-                  loading: (_) => const Center(child: CircularProgressIndicator()),
-                  success: (state) => Center(child: Text(state.flat.toString())),
-                  error: (error) => Center(child: Text(error.message)),
-                  successFlat: (_) => const Offstage(),
-                ),
-              ],
-            ),
           ],
         ),
       ),
     );
   }
 }
-
-// /// {@template sample_page}
-// /// SamplePage widget
-// /// {@endtemplate}
-// class HomeScreen extends StatelessWidget {
-//   /// {@macro sample_page}
-//   const HomeScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) => Scaffold(
-//         backgroundColor: Theme.of(context).colorScheme.background,
-//         body: CustomScrollView(
-//           slivers: [
-//             SliverAppBar(title: Text(Localization.of(context).appTitle)),
-//             SliverList(
-//               delegate: SliverChildListDelegate.fixed([
-//                 Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Text(
-//                     Localization.of(context).locales,
-//                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-//                           fontWeight: FontWeight.bold,
-//                           color: Theme.of(context).colorScheme.onBackground,
-//                         ),
-//                   ),
-//                 ),
-//                 _LanguagesSelector(Localization.supportedLocales),
-//                 Padding(
-//                   padding: const EdgeInsets.all(8.0),
-//                   child: Text(
-//                     Localization.of(context).default_themes,
-//                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-//                           fontWeight: FontWeight.bold,
-//                           color: Theme.of(context).colorScheme.onBackground,
-//                         ),
-//                   ),
-//                 ),
-//                 const _ThemeSelector(Colors.primaries),
-//                 Padding(
-//                   padding: const EdgeInsets.only(left: 8, top: 8),
-//                   child: Text(
-//                     Localization.of(context).custom_colors,
-//                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-//                           fontWeight: FontWeight.bold,
-//                           color: Theme.of(context).colorScheme.onBackground,
-//                         ),
-//                   ),
-//                 ),
-//                 const _ThemeSelector(Colors.accents),
-//               ]),
-//             ),
-//
-//             SliverToBoxAdapter(
-//               child: Center(
-//                 child: SizedBox(
-//                   height: 100,
-//                   width: 100,
-//                   child: Card(
-//                     color: Theme.of(context).colorScheme.primaryContainer,
-//                     margin: const EdgeInsets.all(8),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             SliverToBoxAdapter(
-//               child: Center(
-//                 child: SizedBox(
-//                   height: 100,
-//                   width: 100,
-//                   child: Card(
-//                     color: Theme.of(context).colorScheme.primaryContainer,
-//                     margin: const EdgeInsets.all(8),
-//                   ),
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       );
-// }
-//
-// class _LanguagesSelector extends StatelessWidget {
-//   const _LanguagesSelector(this._languages);
-//
-//   final List<Locale> _languages;
-//
-//   @override
-//   Widget build(BuildContext context) => SizedBox(
-//         height: 100,
-//         child: ListView.builder(
-//           scrollDirection: Axis.horizontal,
-//           itemCount: _languages.length,
-//           itemBuilder: (context, index) {
-//             final language = _languages.elementAt(index);
-//
-//             return Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: _LanguageCard(language),
-//             );
-//           },
-//         ),
-//       );
-// }
-//
-// class _LanguageCard extends StatelessWidget {
-//   const _LanguageCard(this._language);
-//
-//   final Locale _language;
-//
-//   @override
-//   Widget build(BuildContext context) => Card(
-//         child: DecoratedBox(
-//           decoration: BoxDecoration(
-//             color: Theme.of(context).colorScheme.primary,
-//             borderRadius: BorderRadius.circular(4),
-//           ),
-//           child: InkWell(
-//             onTap: () => SettingsScope.localeOf(context).setLocale(_language),
-//             borderRadius: BorderRadius.circular(4),
-//             child: SizedBox(
-//               width: 64,
-//               child: Center(
-//                 child: Text(
-//                   _language.languageCode,
-//                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-//                         color: Theme.of(context).colorScheme.onPrimary,
-//                       ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       );
-// }
-//
-// class _ThemeSelector extends StatelessWidget {
-//   const _ThemeSelector(this._colors);
-//
-//   final List<Color> _colors;
-//
-//   @override
-//   Widget build(BuildContext context) => SizedBox(
-//         height: 100,
-//         child: ListView.builder(
-//           scrollDirection: Axis.horizontal,
-//           itemCount: _colors.length,
-//           itemBuilder: (context, index) {
-//             final color = _colors.elementAt(index);
-//
-//             return Padding(
-//               padding: const EdgeInsets.all(8.0),
-//               child: _ThemeCard(color),
-//             );
-//           },
-//         ),
-//       );
-// }
-//
-// class _ThemeCard extends StatelessWidget {
-//   const _ThemeCard(this._color);
-//
-//   final Color _color;
-//
-//   @override
-//   Widget build(BuildContext context) => Card(
-//         child: Material(
-//           color: _color,
-//           borderRadius: BorderRadius.circular(4),
-//           child: InkWell(
-//             onTap: () {
-//               SettingsScope.themeOf(context).setThemeSeedColor(_color);
-//             },
-//             borderRadius: BorderRadius.circular(4),
-//             child: const SizedBox.square(dimension: 64),
-//           ),
-//         ),
-//       );
-// }

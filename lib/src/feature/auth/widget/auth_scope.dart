@@ -44,10 +44,7 @@ class AuthScope extends StatefulWidget {
   ///
   /// This static method provides access to the AuthScopeController. If [listen] is
   /// set to true, the calling widget will rebuild when the AuthState changes.
-  static AuthScopeController of(
-    BuildContext context, {
-    bool listen = true,
-  }) =>
+  static AuthScopeController of(BuildContext context, {bool listen = true}) =>
       context.inhOf<_InheritedAuthScope>(listen: listen).controller;
 
   /// Retrieves the current authentication state from the nearest _InheritedAuthScope.
@@ -92,11 +89,7 @@ class _AuthScopeState extends State<AuthScope> implements AuthScopeController {
   @override
   Widget build(BuildContext context) => BlocBuilder<AuthBloc, AuthState>(
         bloc: _authBloc,
-        builder: (context, state) => _InheritedAuthScope(
-          state: state,
-          controller: this,
-          child: widget.child,
-        ),
+        builder: (context, state) => _InheritedAuthScope(state: state, controller: this, child: widget.child),
       );
 }
 
@@ -109,11 +102,7 @@ class _InheritedAuthScope extends InheritedWidget {
   final AuthState state;
   final AuthScopeController controller;
 
-  const _InheritedAuthScope({
-    required this.state,
-    required this.controller,
-    required super.child,
-  });
+  const _InheritedAuthScope({required this.state, required this.controller, required super.child});
 
   @override
   bool updateShouldNotify(_InheritedAuthScope oldWidget) => oldWidget.state != state;
