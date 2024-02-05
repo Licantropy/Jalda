@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jalda/src/feature/auth/data/params/login_params.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
@@ -21,7 +22,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await authRepository.login(event.params);
         emit(LoginSuccess());
       } catch (e) {
-        emit(LoginFailure(e.toString()));
+        if (e is DioException) {
+          final String? errorMessage = e.response?.data['message'].toString();
+          emit(AuthFailure(errorMessage.toString()));
+        } else {
+          emit(AuthFailure(e.toString()));
+        }
 
         rethrow;
       }
@@ -34,7 +40,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await authRepository.register(event.params);
         emit(RegisterSuccess());
       } catch (e) {
-        emit(RegisterFailure(e.toString()));
+        if (e is DioException) {
+          final String? errorMessage = e.response?.data['message'].toString();
+          emit(AuthFailure(errorMessage.toString()));
+        } else {
+          emit(AuthFailure(e.toString()));
+        }
+
         rethrow;
       }
     });
@@ -45,11 +57,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await authRepository.refresh(event.refreshToken);
         emit(TokenRefreshSuccess());
       } catch (e) {
-        emit(TokenRefreshFailure(e.toString()));
+        if (e is DioException) {
+          final String? errorMessage = e.response?.data['message'].toString();
+          emit(AuthFailure(errorMessage.toString()));
+        } else {
+          emit(AuthFailure(e.toString()));
+        }
         rethrow;
       }
     });
-
   }
-
 }

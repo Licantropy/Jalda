@@ -12,13 +12,13 @@ class LoginLoading extends AuthState {}
 ///
 class LoginSuccess extends AuthState {}
 
-///
-class LoginFailure extends AuthState {
+class AuthFailure extends AuthState {
   ///
-  final String error;
+  final String? error;
+
+  AuthFailure(this.error);
 
   ///
-  LoginFailure(this.error);
 }
 
 ///
@@ -28,23 +28,8 @@ class RegisterLoading extends AuthState {}
 class RegisterSuccess extends AuthState {}
 
 ///
-class RegisterFailure extends AuthState {
-  ///
-  final String error;
-
-  ///
-  RegisterFailure(this.error);
-}
-
-///
 class TokenRefreshLoading extends AuthState {}
 
 ///
 class TokenRefreshSuccess extends AuthState {}
 
-///
-class TokenRefreshFailure extends AuthState {
-  final String error;
-
-  TokenRefreshFailure(this.error);
-}

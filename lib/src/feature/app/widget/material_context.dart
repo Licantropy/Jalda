@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jalda/src/core/localization/localization.dart';
+import 'package:jalda/src/core/utils/error_scope.dart';
 import 'package:jalda/src/feature/auth/login/widget/login_screen.dart';
 import 'package:jalda/src/feature/auth/registration/widget/registration_screen.dart';
 import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
@@ -24,20 +25,22 @@ class MaterialContext extends StatelessWidget {
     final locale = SettingsScope.localeOf(context).locale;
     final _router = GoRouter(
       routes: [
-        GoRoute(path: '/', name: 'splash', builder: (context, state) => const SplashScreen()),
-        ShellRoute(
-          builder: (context, state, child) => AuthScope(child: child),
-          routes: [
-            GoRoute(name: 'login', path: '/login', builder: (context, state) => const LoginScreen(), routes: [
-              GoRoute(
-                name: 'registration',
-                path: 'registration',
-                builder: (context, state) => const RegistrationScreen(),
-              ),
-            ]),
-          ],
-        ),
-        GoRoute(name: 'home', path: '/home', builder: (context, state) => const OrdersScope(child: HomeScreen())),
+        ShellRoute(builder: (context, state, child) => ErrorScope(child: child), routes: [
+          GoRoute(path: '/', name: 'splash', builder: (context, state) => const SplashScreen()),
+          ShellRoute(
+            builder: (context, state, child) => AuthScope(child: child),
+            routes: [
+              GoRoute(name: 'login', path: '/login', builder: (context, state) => const LoginScreen(), routes: [
+                GoRoute(
+                  name: 'registration',
+                  path: 'registration',
+                  builder: (context, state) => const RegistrationScreen(),
+                ),
+              ]),
+            ],
+          ),
+          GoRoute(name: 'home', path: '/home', builder: (context, state) => const OrdersScope(child: HomeScreen())),
+        ])
       ],
     );
 

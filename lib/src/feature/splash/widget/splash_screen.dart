@@ -17,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
+  /// temporary plug
   void tokenCheck() async {
     final tokenManager = DependenciesScope.of(context).tokenManager;
     final token = await tokenManager.getAccessToken();
