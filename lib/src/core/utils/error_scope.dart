@@ -37,7 +37,7 @@ class _ErrorScopeState extends State<ErrorScope> implements ErrorScopeController
             Expanded(child: Text(error, style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600))),
           ],
         ),
-      )
+      ),
     );
   }
 }
