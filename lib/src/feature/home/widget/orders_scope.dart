@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jalda/src/core/utils/error_scope.dart';
 import 'package:jalda/src/core/utils/extensions/context_extension.dart';
 import 'package:jalda/src/feature/home/bloc/orders_bloc.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
@@ -33,6 +34,12 @@ class _OrdersScopeState extends State<OrdersScope> implements OrdersScopeControl
   void initState() {
     super.initState();
     _ordersBloc = OrdersBloc(DependenciesScope.of(context).flatRepository);
+    _ordersBloc.stream.listen((state) {
+      state.maybeMap(
+          error: (errorState) => ErrorScope.of(context).showErrorSnackBar(errorState.message ?? 'Неизвестная ошибка'),
+          orElse: () {}
+      );
+    });
   }
 
   @override

@@ -37,17 +37,18 @@ class HomeScreen extends StatelessWidget {
             GoogleMap(
               mapType: MapType.hybrid,
               initialCameraPosition: _kGooglePlex,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+              onMapCreated: (GoogleMapController controller) => _controller.complete(controller),
             ),
             Positioned(
               bottom: 20,
               right: 20,
-              child: Material(
-                elevation: 10,
-                shape: const CircleBorder(),
-                child: Padding(padding: 13.p, child: const Icon(Icons.pin_drop)),
+              child: GestureDetector(
+                onTap: () => OrdersScope.of(context).fetchDailyFlats(),
+                child: Material(
+                  elevation: 10,
+                  shape: const CircleBorder(),
+                  child: Padding(padding: 13.p, child: const Icon(Icons.pin_drop)),
+                ),
               ),
             ),
             Positioned(

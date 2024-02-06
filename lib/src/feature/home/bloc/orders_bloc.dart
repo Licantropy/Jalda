@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/domain/repositories/flat_repository.dart';
@@ -24,7 +25,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       final flat = await _flatRepository.getDailyFlats();
       emit(OrdersState.success(flat));
     } catch (e) {
-      emit(OrdersState.error(e.toString()));
+      if (e is DioException) {
+        final String? errorMessage = e.response?.data['message'].toString();
+        emit(OrdersState.error(errorMessage.toString()));
+      } else {
+        emit(OrdersState.error(e.toString()));
+      }
       rethrow;
     }
   }
@@ -35,7 +41,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       final flat = await _flatRepository.getHourlyFlats();
       emit(OrdersState.success(flat));
     } catch (e) {
-      emit(OrdersState.error(e.toString()));
+      if (e is DioException) {
+        final String? errorMessage = e.response?.data['message'].toString();
+        emit(OrdersState.error(errorMessage.toString()));
+      } else {
+        emit(OrdersState.error(e.toString()));
+      }
       rethrow;
     }
   }
@@ -46,7 +57,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       final flat = await _flatRepository.getFlatInfo(event.id);
       emit(OrdersState.successFlat(flat));
     } catch (e) {
-      emit(OrdersState.error(e.toString()));
+      if (e is DioException) {
+        final String? errorMessage = e.response?.data['message'].toString();
+        emit(OrdersState.error(errorMessage.toString()));
+      } else {
+        emit(OrdersState.error(e.toString()));
+      }
       rethrow;
     }
   }
