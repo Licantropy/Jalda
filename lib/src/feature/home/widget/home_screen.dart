@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
+import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 
 ///
 class HomeScreen extends StatefulWidget {
@@ -23,17 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
-  final Set<Marker> _markers = {};
+  Set<Marker> _markers = {};
 
-  void _createMarkers(List<FlatModel> flats) {
-    _markers.clear();
+  Iterable<Marker> _generateMarkers(List<FlatModel> flats) sync* {
     for (final flat in flats) {
-      final marker = Marker(
+      yield Marker(
         markerId: MarkerId(flat.id.toString()),
-        position: LatLng(flat.longitude, flat.latitude),
+        position: LatLng(flat.latitude, flat.longitude),
         infoWindow: InfoWindow(title: flat.name, snippet: flat.address),
       );
-      _markers.add(marker);
     }
   }
 
@@ -41,31 +40,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const List<String> tabNames = ['Почасово', 'Посуточно'];
 
+  void deleteTokens() => DependenciesScope.of(context).tokenManager.deleteTokens();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    OrdersScope.stateOf(context).mapOrNull(success: (state) => _markers = _generateMarkers(state.flat).toSet());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final state = OrdersScope.stateOf(context);
     final List<VoidCallback> tabCallbacks = [
       () => OrdersScope.of(context).fetchHourlyFlats(),
       () => OrdersScope.of(context).fetchDailyFlats(),
     ];
-
-    if (state.maybeMap(
-      success: (state) {
-        _createMarkers(state.flat);
-        return true;
-      },
-      orElse: () => false,
-    )) {}
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Stack(
         children: [
           GoogleMap(
             markers: _markers,
-            mapType: MapType.hybrid,
+            mapType: MapType.normal,
             initialCameraPosition: _kAlmaty,
             onMapCreated: (GoogleMapController controller) => _controller.complete(controller),
             padding: const EdgeInsets.only(bottom: 40, right: 10),
+          ),
+
+          /// temporary plug
+          Positioned(
+            bottom: 20,
+            left: 20,
+            child: GestureDetector(onTap: deleteTokens, child: Container(height: 50, width: 50, color: Colors.redAccent)),
           ),
           SafeArea(child: CustomTabBar(tabNames: tabNames, tabCallbacks: tabCallbacks)),
         ],

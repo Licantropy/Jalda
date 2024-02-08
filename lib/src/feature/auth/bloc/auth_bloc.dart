@@ -35,7 +35,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<RegisterRequested>((event, emit) async {
       emit(RegisterLoading());
-
       try {
         await authRepository.register(event.params);
         emit(RegisterSuccess());
@@ -47,22 +46,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthFailure(e.toString()));
         }
 
-        rethrow;
-      }
-    });
-
-    on<TokenRefreshRequested>((event, emit) async {
-      emit(TokenRefreshLoading());
-      try {
-        await authRepository.refresh(event.refreshToken);
-        emit(TokenRefreshSuccess());
-      } catch (e) {
-        if (e is DioException) {
-          final String? errorMessage = e.response?.data['message'].toString();
-          emit(AuthFailure(errorMessage.toString()));
-        } else {
-          emit(AuthFailure(e.toString()));
-        }
         rethrow;
       }
     });

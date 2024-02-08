@@ -10,7 +10,7 @@ class FlatModel with _$FlatModel {
   const factory FlatModel({
     required int id,
     required String name,
-    required String description,
+    String? description,
     required String address,
     required double longitude,
     required double latitude,

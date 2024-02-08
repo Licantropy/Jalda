@@ -10,7 +10,7 @@ class FlatDto with _$FlatDto {
   const factory FlatDto({
     required int id,
     required String name,
-    required String description,
+    String? description,
     required String address,
     required double longitude,
     required double latitude,

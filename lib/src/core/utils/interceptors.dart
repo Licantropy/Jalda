@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
+import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
 
 class TokenInterceptor extends Interceptor {
-  final ITokenManager _tokenManager;
+  final TokenManagerImpl _tokenManager;
+  final AuthRepository _authRepository;
 
-  TokenInterceptor(this._tokenManager);
+  TokenInterceptor(this._tokenManager, this._authRepository);
 
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
@@ -13,5 +15,26 @@ class TokenInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $token';
     }
     return super.onRequest(options, handler);
+  }
+
+  @override
+  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.response?.statusCode == 401) {
+      try {
+        final refreshToken = await _tokenManager.getRefreshToken();
+        if (refreshToken != null) {
+          await _authRepository.refresh(refreshToken);
+          final newToken = await _tokenManager.getAccessToken();
+          if (newToken != null) {
+            err.requestOptions.headers['Authorization'] = 'Bearer $newToken';
+            return handler.resolve(await Dio().fetch(err.requestOptions));
+          }
+        }
+      } catch (e) {
+        /// TODO: LOGOUT
+      }
+    }
+
+    return super.onError(err, handler);
   }
 }

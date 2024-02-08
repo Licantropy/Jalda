@@ -37,8 +37,6 @@ mixin InitializationSteps {
     'Rest client': (progress) async {
       final restClientDio = Dio(BaseOptions(baseUrl: progress.environmentStore.baseUrl));
 
-      restClientDio.interceptors.add(TokenInterceptor(progress.dependencies.tokenManager));
-
       restClientDio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
 
       progress.dependencies.restClientDio = restClientDio;
@@ -61,6 +59,9 @@ mixin InitializationSteps {
       final authDataSource = AuthDataSourceImpl(progress.dependencies.restClientDio);
 
       progress.dependencies.authRepository = AuthRepository(authDataSource, progress.dependencies.tokenManager);
+
+      progress.dependencies.restClientDio.interceptors
+          .add(TokenInterceptor(progress.dependencies.tokenManager, progress.dependencies.authRepository));
     },
     'Flat Repository': (progress) async {
       final flatDataSource = FlatDataSourceImpl(progress.dependencies.restClientDio);
@@ -69,4 +70,3 @@ mixin InitializationSteps {
     },
   };
 }
-
