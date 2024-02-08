@@ -1,7 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jalda/src/core/const/app_icons.dart';
+import 'package:jalda/src/core/utils/image_converter.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
@@ -17,36 +20,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  Set<Marker> _markers = {};
+  static const CameraPosition _kAlmaty = CameraPosition(target: LatLng(43.2220, 76.8512), zoom: 10);
+  static const List<String> tabNames = ['Почасово', 'Посуточно'];
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => OrdersScope.of(context).fetchHourlyFlats());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchHourlyFlats());
   }
-
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
-  Set<Marker> _markers = {};
-
-  Iterable<Marker> _generateMarkers(List<FlatModel> flats) sync* {
-    for (final flat in flats) {
-      yield Marker(
-        markerId: MarkerId(flat.id.toString()),
-        position: LatLng(flat.latitude, flat.longitude),
-        infoWindow: InfoWindow(title: flat.name, snippet: flat.address),
-      );
-    }
-  }
-
-  static const CameraPosition _kAlmaty = CameraPosition(target: LatLng(43.2220, 76.8512), zoom: 10);
-
-  static const List<String> tabNames = ['Почасово', 'Посуточно'];
-
-  void deleteTokens() => DependenciesScope.of(context).tokenManager.deleteTokens();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    OrdersScope.stateOf(context).mapOrNull(success: (state) => _markers = _generateMarkers(state.flat).toSet());
+    _updateMarkersOnStateChange();
   }
+
+  void _fetchHourlyFlats() => OrdersScope.of(context).fetchHourlyFlats();
+
+  void _updateMarkersOnStateChange() => OrdersScope.stateOf(context).mapOrNull(success: (state) async {
+        _markers = await _generateMarkers(state.flat).whenComplete(() => setState(() {}));
+      });
+
+  Future<Set<Marker>> _generateMarkers(List<FlatModel> flats) async {
+    final Uint8List redPinBytes = await convertImageToUint8List(AppIcons.redPin);
+    final Uint8List greenPinBytes = await convertImageToUint8List(AppIcons.greenPin);
+
+    return flats.map((flat) {
+      final Uint8List markerIconBytes = flat.status == AvailabilityStatus.busy ? redPinBytes : greenPinBytes;
+      return _createMarker(flat, markerIconBytes);
+    }).toSet();
+  }
+
+  Marker _createMarker(FlatModel flat, Uint8List markerIconBytes) => Marker(
+        markerId: MarkerId(flat.id.toString()),
+        position: LatLng(flat.latitude, flat.longitude),
+        infoWindow: InfoWindow(title: flat.name, snippet: flat.address),
+        icon: BitmapDescriptor.fromBytes(markerIconBytes),
+      );
+
+  void _deleteTokens() => DependenciesScope.of(context).tokenManager.deleteTokens();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Positioned(
             bottom: 20,
             left: 20,
-            child: GestureDetector(onTap: deleteTokens, child: Container(height: 50, width: 50, color: Colors.redAccent)),
+            child: GestureDetector(
+                onTap: _deleteTokens,
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  color: Colors.redAccent,
+                  child: Image.asset(AppIcons.greenPin),
+                )),
           ),
           SafeArea(child: CustomTabBar(tabNames: tabNames, tabCallbacks: tabCallbacks)),
         ],

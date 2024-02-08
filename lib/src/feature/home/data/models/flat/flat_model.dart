@@ -4,6 +4,12 @@ import 'package:jalda/src/feature/home/data/models/image/image_model.dart';
 
 part 'flat_model.freezed.dart';
 
+enum AvailabilityStatus {
+  @JsonKey(name: 'busy')
+  busy,
+  @JsonKey(name: 'free')
+  free;
+}
 
 @freezed
 class FlatModel with _$FlatModel {
@@ -18,9 +24,20 @@ class FlatModel with _$FlatModel {
     required int floor,
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
-    @JsonKey(name: 'availability_status') required String availabilityStatus,
+    @JsonKey(name: 'availability_status') required AvailabilityStatus status,
     required List<ImageModel> photos,
   }) = _FlatModel;
+
+  static AvailabilityStatus _statusFromString(String statusString) {
+    switch (statusString) {
+      case 'busy':
+        return AvailabilityStatus.busy;
+      case 'free':
+        return AvailabilityStatus.free;
+      default:
+        throw ArgumentError('Unknown availability status: $statusString');
+    }
+  }
 
   factory FlatModel.fromDto(FlatDto dto) => FlatModel(
       id: dto.id,
@@ -31,11 +48,6 @@ class FlatModel with _$FlatModel {
       latitude: dto.latitude,
       rooms: dto.rooms,
       floor: dto.floor,
-      availabilityStatus: dto.availabilityStatus,
-      photos: dto.photos.map((e) => ImageModel(
-                id: e.id,
-                propertyId: e.propertyId,
-                photoUrl: e.photoUrl,
-              ))
-          .toList());
+      status: _statusFromString(dto.availabilityStatus),
+      photos: dto.photos.map((e) => ImageModel(id: e.id, propertyId: e.propertyId, photoUrl: e.photoUrl)).toList());
 }

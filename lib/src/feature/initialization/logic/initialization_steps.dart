@@ -43,13 +43,8 @@ mixin InitializationSteps {
     },
     'Settings Repository': (progress) {
       final sharedPreferences = progress.dependencies.sharedPreferences;
-      final themeDataSource = ThemeDataSourceImpl(
-        sharedPreferences: sharedPreferences,
-        codec: const ThemeModeCodec(),
-      );
-      final localeDataSource = LocaleDataSourceImpl(
-        sharedPreferences: sharedPreferences,
-      );
+      final themeDataSource = ThemeDataSourceImpl(sharedPreferences: sharedPreferences, codec: const ThemeModeCodec());
+      final localeDataSource = LocaleDataSourceImpl(sharedPreferences: sharedPreferences);
       progress.dependencies.settingsRepository = SettingsRepositoryImpl(
         themeDataSource: themeDataSource,
         localeDataSource: localeDataSource,
