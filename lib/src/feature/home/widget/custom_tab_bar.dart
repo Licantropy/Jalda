@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 
 /// CustomTabBar is a reusable widget in Flutter that provides a customizable tab bar with multiple tabs.
 ///
@@ -47,32 +48,28 @@ class _CustomTabBarState extends State<CustomTabBar> with SingleTickerProviderSt
   }
 
   void _handleTabSelection() {
-    if (_tabController.indexIsChanging) {
-      // Execute the callback function corresponding to the selected tab.
-      widget.tabCallbacks[_tabController.index]();
-    }
+    if (_tabController.indexIsChanging) widget.tabCallbacks[_tabController.index]();
   }
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 40),
+            margin: 40.hp,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: 10.r,
               color: Theme.of(context).colorScheme.background,
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.25), spreadRadius: 1, blurRadius: 6.0, offset: Offset(0, 4))],
             ),
             child: TabBar(
+              dividerHeight: 0,
               indicatorSize: TabBarIndicatorSize.tab,
               controller: _tabController,
-              indicator: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(8),
-              ),
+              indicator: BoxDecoration(color: Theme.of(context).colorScheme.primary, borderRadius: 8.r),
               labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
               labelColor: Theme.of(context).colorScheme.background,
               unselectedLabelColor: Theme.of(context).colorScheme.outline,
-              labelPadding: const EdgeInsets.symmetric(vertical: 14),
+              labelPadding: 14.vp,
               tabs: widget.tabNames.map((name) => Text(name)).toList(),
             ),
           ),
