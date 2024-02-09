@@ -1,0 +1,12 @@
+{
+  "custom_colors": "Пользовательские цвета",
+  "default_themes": "Стандартные темы",
+  "locales": "Локали",
+  "free": "Свободно",
+  "occupied": "Занято",
+  "floor_rooms": "Этаж:{floor}/Комнат: {rooms}",
+  "price_per_day": "{price}/день",
+  "price_per_hour": "{price}/ч",
+  "close": "Закрыть",
+  "request": "Запросить"
+}

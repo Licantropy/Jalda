@@ -1,0 +1,12 @@
+{
+  "custom_colors": "Жеке түстер",
+  "default_themes": "Әдепкі тақырыптар",
+  "locales": "Локальдер",
+  "free": "Бос",
+  "occupied": "Бос емес",
+  "floor_rooms": "Қабат:{floor}/Бөлмелер: {rooms}",
+  "price_per_day": "{price}/күніне",
+  "price_per_hour": "{price}/сағат",
+  "close": "Жабу",
+  "request": "Сұрау"
+}

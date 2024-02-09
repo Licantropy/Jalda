@@ -9,7 +9,7 @@ class ImageDto with _$ImageDto {
   const factory ImageDto({
     required int id,
     @JsonKey(name: 'property_id') required int propertyId,
-    @JsonKey(name: 'photo_url') required String photoUrl,
+    @JsonKey(name: 'photo_url') required String imageUrl,
     @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'updated_at') required String updatedAt,
   }) = _ImageDto;

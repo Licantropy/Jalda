@@ -19,7 +19,7 @@ class FlatDto with _$FlatDto {
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
     @JsonKey(name: 'availability_status') required String availabilityStatus,
-    required List<ImageDto> photos,
+    required List<ImageDto> images,
   }) = _FlatDto;
 
   ///

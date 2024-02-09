@@ -25,7 +25,7 @@ class FlatModel with _$FlatModel {
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
     @JsonKey(name: 'availability_status') required AvailabilityStatus status,
-    required List<ImageModel> photos,
+    required List<ImageModel> images,
   }) = _FlatModel;
 
   static AvailabilityStatus _statusFromString(String statusString) {
@@ -46,8 +46,10 @@ class FlatModel with _$FlatModel {
       address: dto.address,
       longitude: dto.longitude,
       latitude: dto.latitude,
+      priceHour: dto.priceHour,
+      priceDay: dto.priceDay,
       rooms: dto.rooms,
       floor: dto.floor,
       status: _statusFromString(dto.availabilityStatus),
-      photos: dto.photos.map((e) => ImageModel(id: e.id, propertyId: e.propertyId, photoUrl: e.photoUrl)).toList());
+      images: dto.images.map((e) => ImageModel(id: e.id, propertyId: e.propertyId, imageUrl: e.imageUrl)).toList());
 }

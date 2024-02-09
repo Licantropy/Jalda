@@ -9,7 +9,7 @@ class ImageModel with _$ImageModel {
   const factory ImageModel({
     required int id,
     @JsonKey(name: 'property_id') required int propertyId,
-    @JsonKey(name: 'photo_url') required String photoUrl,
+  required String imageUrl,
   }) = _ImageModel;
 
   factory ImageModel.fromJson(Map<String, dynamic> json) => _$ImageModelFromJson(json);

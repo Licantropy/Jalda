@@ -7,6 +7,7 @@ import 'package:jalda/src/core/const/app_icons.dart';
 import 'package:jalda/src/core/utils/image_converter.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
+import 'package:jalda/src/feature/home/widget/flat_details_dialog.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 
@@ -21,8 +22,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+
   Set<Marker> _markers = {};
+
   static const CameraPosition _kAlmaty = CameraPosition(target: LatLng(43.2220, 76.8512), zoom: 10);
+
   static const List<String> tabNames = ['Почасово', 'Посуточно'];
 
   @override
@@ -39,9 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _fetchHourlyFlats() => OrdersScope.of(context).fetchHourlyFlats();
 
-  void _updateMarkersOnStateChange() => OrdersScope.stateOf(context).mapOrNull(success: (state) async {
-        _markers = await _generateMarkers(state.flat).whenComplete(() => setState(() {}));
-      });
+  void _updateMarkersOnStateChange() => OrdersScope.stateOf(context)
+      .mapOrNull(success: (state) async => _markers = await _generateMarkers(state.flat).whenComplete(() => setState(() {})));
 
   Future<Set<Marker>> _generateMarkers(List<FlatModel> flats) async {
     final Uint8List redPinBytes = await convertImageToUint8List(AppIcons.redPin);
@@ -56,9 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Marker _createMarker(FlatModel flat, Uint8List markerIconBytes) => Marker(
         markerId: MarkerId(flat.id.toString()),
         position: LatLng(flat.latitude, flat.longitude),
-        infoWindow: InfoWindow(title: flat.name, snippet: flat.address),
         icon: BitmapDescriptor.fromBytes(markerIconBytes),
+        onTap: () => _showFlatDetailsDialog(flat),
       );
+
+  void _showFlatDetailsDialog(FlatModel flat) => FlatDetailsDialogWidget.show(context, flat);
 
   void _deleteTokens() => DependenciesScope.of(context).tokenManager.deleteTokens();
 
@@ -74,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           GoogleMap(
             markers: _markers,
-            mapType: MapType.normal,
             initialCameraPosition: _kAlmaty,
             onMapCreated: (GoogleMapController controller) => _controller.complete(controller),
             padding: const EdgeInsets.only(bottom: 40, right: 10),
@@ -85,13 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
             bottom: 20,
             left: 20,
             child: GestureDetector(
-                onTap: _deleteTokens,
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  color: Colors.redAccent,
-                  child: Image.asset(AppIcons.greenPin),
-                )),
+              onTap: _deleteTokens,
+              child: Container(
+                height: 50,
+                width: 50,
+                color: Colors.redAccent,
+                child: Image.asset(AppIcons.greenPin),
+              ),
+            ),
           ),
           SafeArea(child: CustomTabBar(tabNames: tabNames, tabCallbacks: tabCallbacks)),
         ],
