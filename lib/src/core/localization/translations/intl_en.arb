@@ -4,9 +4,19 @@
   "locales": "Locales",
   "free": "Free",
   "occupied": "Occupied",
-  "floor_rooms": "Floor:{floor}/Rooms: {rooms}",
+  "floor_rooms": "Floor:{floor}/Rooms:{rooms}",
   "price_per_day": "{price}/day",
   "price_per_hour": "{price}/hr",
   "close": "Close",
-  "request": "Request"
+  "request": "Request",
+  "hourly": "Hourly",
+  "daily": "Daily",
+  "email": "Email",
+  "password": "Password",
+  "forgot_password": "Forgot Password?",
+  "login": "Login",
+  "register": "Register",
+  "phone_number": "Phone Number",
+  "name": "Name",
+  "repeat_password": "Repeat Password"
 }

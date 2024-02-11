@@ -37,6 +37,8 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localization = Localization.of(context);
+
     return Dialog(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
@@ -50,7 +52,7 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
           children: <Widget>[
             Align(
               child: Text(
-                widget.flat.status == AvailabilityStatus.free ? 'Свободно' : 'Занято',
+                widget.flat.status == AvailabilityStatus.free ? localization.free : localization.occupied,
                 style: theme.primaryTextTheme.titleLarge?.copyWith(
                   color: widget.flat.status == AvailabilityStatus.free ? Colors.green : Colors.red,
                   fontWeight: FontWeight.w700,
@@ -126,7 +128,8 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                             text: '${widget.flat.name}\n',
                             children: [
                               TextSpan(text: '${widget.flat.address}\n'),
-                              TextSpan(text: 'Этаж:${widget.flat.floor}/Комнат: ${widget.flat.rooms}'),
+                              TextSpan(text: localization.floor_rooms(widget.flat.floor, widget.flat.rooms)),
+                              // TextSpan(text: 'Этаж:${widget.flat.floor}/Комнат: ${widget.flat.rooms}'),
                             ],
                             style: theme.primaryTextTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.onPrimaryContainer,
@@ -135,7 +138,9 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                         ),
                       ),
                       Text(
-                        widget.flat.priceDay != null ? '${widget.flat.priceDay}/день' : '${widget.flat.priceHour}/ч',
+                        widget.flat.priceDay != null
+                            ? localization.price_per_day(widget.flat.priceDay.toString())
+                            : localization.price_per_hour(widget.flat.priceHour.toString()),
                         style: theme.primaryTextTheme.titleMedium?.copyWith(color: const Color(0xFF3ECD79), fontSize: 18),
                       ),
                     ],
@@ -147,14 +152,14 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                       AppButton(
                         onPressed: _pop,
                         color: Colors.red.shade700,
-                        text: 'Закрыть',
+                        text: localization.close,
                         width: MediaQuery.of(context).size.width * 0.35,
                         textColor: Colors.white,
                         borderRadius: 10,
                       ),
                       AppButton(
                         color: theme.colorScheme.primary,
-                        text: 'Запросить',
+                        text: localization.request,
                         width: MediaQuery.of(context).size.width * 0.40,
                         textColor: Colors.white,
                         borderRadius: 10,

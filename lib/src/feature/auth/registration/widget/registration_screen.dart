@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/core/utils/input_masks.dart';
 import 'package:jalda/src/core/utils/validator.dart';
@@ -104,7 +105,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   /// otherwise it returns a [Text] widget with 'Зарегистрироваться'.
   Widget _buildRegisterButtonChild() => AuthScope.stateOf(context) is RegisterLoading
       ? const CupertinoActivityIndicator(color: Colors.white)
-      : const Text('Зарегистрироваться',style: TextStyle(color: Colors.white));
+      : Text(Localization.of(context).register, style: TextStyle(color: Colors.white));
 
   @override
   void initState() {
@@ -116,47 +117,73 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 120, 16, 0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
-                20.h,
-                AppTextFormField(controller: _emailController, hintText: 'Электронная почта', validator: EmailValidator()),
-                12.h,
-                AppTextFormField(
-                  controller: _phoneController,
-                  inputFormatters: [CustomMaskTextInputFormatter.phoneFormatter()],
-                  keyboardType: TextInputType.phone,
-                  hintText: 'Номер телефона',
-                  validator: PhoneNumberValidator(),
-                ),
-                12.h,
-                AppTextFormField(controller: _nameController, hintText: 'Имя', validator: NameValidator()),
-                12.h,
-                AppTextFormField(controller: _passwordController, hintText: 'Пароль', validator: PasswordValidator()),
-                12.h,
-                AppTextFormField(controller: _confirmPasswordController, hintText: 'Повторите пароль', validator: PasswordValidator()),
-                Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
-              ],
-            ),
-          ),
-        ),
-        bottomSheet: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+  Widget build(BuildContext context) {
+    final localization = Localization.of(context);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 120, 16, 0),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              AppButton(onPressed: _register, width: double.maxFinite, child: _buildRegisterButtonChild()),
-              10.h,
-              TextButton(onPressed: _toLogin, child: const Text('Войти')),
+              Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
+              20.h,
+              AppTextFormField(
+                controller: _emailController,
+                hintText: localization.email,
+                validator: EmailValidator(),
+              ),
+              12.h,
+              AppTextFormField(
+                controller: _phoneController,
+                inputFormatters: [CustomMaskTextInputFormatter.phoneFormatter()],
+                keyboardType: TextInputType.phone,
+                hintText: localization.phone_number,
+                validator: PhoneNumberValidator(),
+              ),
+              12.h,
+              AppTextFormField(
+                controller: _nameController,
+                hintText: localization.name,
+                validator: NameValidator(),
+              ),
+              12.h,
+              AppTextFormField(
+                controller: _passwordController,
+                hintText: localization.password,
+                validator: PasswordValidator(),
+              ),
+              12.h,
+              AppTextFormField(
+                controller: _confirmPasswordController,
+                hintText: localization.repeat_password,
+                validator: PasswordValidator(),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(localization.forgot_password),
+                ),
+              ),
             ],
           ),
         ),
-      );
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppButton(onPressed: _register, width: double.maxFinite, child: _buildRegisterButtonChild()),
+            10.h,
+            TextButton(onPressed: _toLogin, child: Text(localization.login)),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {

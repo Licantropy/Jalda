@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/core/utils/validator.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
@@ -73,41 +74,59 @@ class _LoginScreenState extends State<LoginScreen> {
   /// otherwise it returns a [Text] widget with 'Войти'.
   Widget _buildLoginButtonChild() => AuthScope.stateOf(context) is LoginLoading
       ? const CupertinoActivityIndicator(color: Colors.white)
-      : const Text('Войти', style: TextStyle(color: Colors.white));
+      : Text(Localization.of(context).login, style: TextStyle(color: Colors.white));
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 120, 16, 0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
-                  20.h,
-                  AppTextFormField(controller: _emailController, validator: EmailValidator(), hintText: 'Электронная почта'),
-                  12.h,
-                  AppTextFormField(controller: _passwordController, validator: PasswordValidator(), hintText: 'Пароль'),
-                  Align(alignment: Alignment.topRight, child: TextButton(onPressed: () {}, child: const Text('Забыли пароль?'))),
-                ],
-              ),
+  Widget build(BuildContext context) {
+    final localization = Localization.of(context);
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 120, 16, 0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Image.asset('assets/images/logo.webp', width: MediaQuery.of(context).size.width * 0.2),
+                20.h,
+                AppTextFormField(
+                  controller: _emailController,
+                  validator: EmailValidator(),
+                  hintText: localization.email,
+                ),
+                12.h,
+                AppTextFormField(
+                  controller: _passwordController,
+                  validator: PasswordValidator(),
+                  hintText: localization.password,
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(localization.forgot_password),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
-        bottomSheet: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppButton(width: double.maxFinite, onPressed: _login, child: _buildLoginButtonChild()),
-              10.h,
-              TextButton(onPressed: _toRegister, child: const Text('Регистрация')),
-            ],
-          ),
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppButton(width: double.maxFinite, onPressed: _login, child: _buildLoginButtonChild()),
+            10.h,
+            TextButton(onPressed: _toRegister, child: Text(Localization.of(context).register)),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   @override
   void dispose() {

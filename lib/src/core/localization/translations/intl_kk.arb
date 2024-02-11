@@ -4,9 +4,19 @@
   "locales": "Локальдер",
   "free": "Бос",
   "occupied": "Бос емес",
-  "floor_rooms": "Қабат:{floor}/Бөлмелер: {rooms}",
+  "floor_rooms": "Қабат:{floor}/Бөлмелер:{rooms}",
   "price_per_day": "{price}/күніне",
   "price_per_hour": "{price}/сағат",
   "close": "Жабу",
-  "request": "Сұрау"
+  "request": "Сұрау",
+  "hourly": "Сағатына",
+  "daily": "Күнделікті",
+  "email": "Электрондық пошта",
+  "password": "Құпия сөз",
+  "forgot_password": "Құпия сөзді ұмыттыңыз ба?",
+  "login": "Кіру",
+  "register": "Тіркелу",
+  "phone_number": "Телефон нөмірі",
+  "name": "Аты",
+  "repeat_password": "Құпия сөзді қайталаңыз"
 }

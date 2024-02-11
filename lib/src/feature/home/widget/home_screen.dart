@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jalda/src/core/const/app_icons.dart';
+import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/image_converter.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
@@ -26,8 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Set<Marker> _markers = {};
 
   static const CameraPosition _kAlmaty = CameraPosition(target: LatLng(43.2220, 76.8512), zoom: 10);
-
-  static const List<String> tabNames = ['Почасово', 'Посуточно'];
 
   @override
   void initState() {
@@ -69,6 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> tabNames = [
+      Localization.of(context).hourly,
+      Localization.of(context).daily,
+    ];
+
     final List<VoidCallback> tabCallbacks = [
       () => OrdersScope.of(context).fetchHourlyFlats(),
       () => OrdersScope.of(context).fetchDailyFlats(),

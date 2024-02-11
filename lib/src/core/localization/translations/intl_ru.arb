@@ -4,9 +4,19 @@
   "locales": "Локали",
   "free": "Свободно",
   "occupied": "Занято",
-  "floor_rooms": "Этаж:{floor}/Комнат: {rooms}",
+  "floor_rooms": "Этаж:{floor}/Комнат:{rooms}",
   "price_per_day": "{price}/день",
   "price_per_hour": "{price}/ч",
   "close": "Закрыть",
-  "request": "Запросить"
+  "request": "Запросить",
+  "hourly": "Почасово",
+  "daily": "Посуточно",
+  "email": "Электронная почта",
+  "password": "Пароль",
+  "forgot_password": "Забыли пароль?",
+  "login": "Войти",
+  "register": "Регистрация",
+  "phone_number": "Номер телефона",
+  "name": "Имя",
+  "repeat_password": "Повторите пароль"
 }
