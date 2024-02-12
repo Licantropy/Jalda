@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/feature/auth/data/sources/token_manager.dart';
 import 'package:jalda/src/feature/auth/domain/repositories/auth_repository.dart';
+import 'package:jalda/src/feature/settings/data/settings_repository.dart';
 
 class TokenInterceptor extends Interceptor {
   final TokenManagerImpl _tokenManager;
@@ -36,5 +38,18 @@ class TokenInterceptor extends Interceptor {
     }
 
     return super.onError(err, handler);
+  }
+}
+
+class LanguageInterceptor extends Interceptor {
+  final SettingsRepositoryImpl _settingsRepository;
+
+  LanguageInterceptor(this._settingsRepository);
+
+  @override
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final locale = _settingsRepository.fetchLocaleFromCache() ?? Localization.computeDefaultLocale();
+    options.headers['Accept-Language'] = locale.languageCode;
+    return super.onRequest(options, handler);
   }
 }

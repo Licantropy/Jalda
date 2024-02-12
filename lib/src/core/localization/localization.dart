@@ -17,8 +17,7 @@ final class Localization extends GeneratedLocalization {
   );
 
   /// List of supported locales.
-  static List<Locale> get supportedLocales =>
-      const AppLocalizationDelegate().supportedLocales;
+  static List<Locale> get supportedLocales => const AppLocalizationDelegate().supportedLocales;
 
   /// List of localization delegates.
   static List<LocalizationsDelegate<void>> get localizationDelegates => [
@@ -43,15 +42,14 @@ final class Localization extends GeneratedLocalization {
   static Locale computeDefaultLocale() {
     final locale = PlatformDispatcher.instance.locale;
 
-    if (const AppLocalizationDelegate().isSupported(locale)) return locale;
+    if (const AppLocalizationDelegate().isSupported(locale)) return Locale.fromSubtags(languageCode: locale.languageCode);
 
-    return const Locale('en');
+    return const Locale('ru');
   }
 
   /// Obtain [Localization] instance from [BuildContext].
   static Localization of(BuildContext context) =>
-      Localizations.of<Localization>(context, Localization) ??
-      (throw ArgumentError('No Localization found in context'));
+      Localizations.of<Localization>(context, Localization) ?? (throw ArgumentError('No Localization found in context'));
 }
 
 final class _LocalizationDelegate extends LocalizationsDelegate<Localization> {
@@ -63,8 +61,7 @@ final class _LocalizationDelegate extends LocalizationsDelegate<Localization> {
   bool isSupported(Locale locale) => _delegate.isSupported(locale);
 
   @override
-  Future<Localization> load(Locale locale) =>
-      GeneratedLocalization.load(locale).then(
+  Future<Localization> load(Locale locale) => GeneratedLocalization.load(locale).then(
         (value) => Localization._current = Localization._(locale: locale),
       );
 

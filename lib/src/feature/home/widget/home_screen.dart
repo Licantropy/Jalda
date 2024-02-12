@@ -6,11 +6,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jalda/src/core/const/app_icons.dart';
 import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/image_converter.dart';
+import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
 import 'package:jalda/src/feature/home/widget/flat_details_dialog.dart';
 import 'package:jalda/src/feature/home/widget/orders_scope.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
+import 'package:jalda/src/feature/settings/widget/settings_scope.dart';
 
 ///
 class HomeScreen extends StatefulWidget {
@@ -94,11 +96,23 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 20,
             child: GestureDetector(
               onTap: _deleteTokens,
-              child: Container(
-                height: 50,
-                width: 50,
-                color: Colors.redAccent,
-                child: Image.asset(AppIcons.greenPin),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppButton(
+                    text: 'en',
+                    onPressed: () => SettingsScope.of(context).setLocale(Locale('en')),
+                  ),
+                  AppButton(
+                    text: 'ru',
+                    onPressed: () => SettingsScope.of(context).setLocale(Locale('ru')),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    child: Image.asset(AppIcons.greenPin),
+                  ),
+                ],
               ),
             ),
           ),

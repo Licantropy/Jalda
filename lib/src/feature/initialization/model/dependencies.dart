@@ -22,7 +22,7 @@ base class Dependencies {
   late final Dio restClientDio;
 
   /// Theme repository
-  late final SettingsRepository settingsRepository;
+  late final SettingsRepositoryImpl settingsRepository;
 
   /// AuthRepository
   late final AuthRepository authRepository;

@@ -30,17 +30,6 @@ mixin InitializationSteps {
       final sharedPreferences = await SharedPreferences.getInstance();
       progress.dependencies.sharedPreferences = sharedPreferences;
     },
-    'Token Manager': (progress) async {
-      final tokenManager = TokenManagerImpl(sharedPreferences: progress.dependencies.sharedPreferences);
-      progress.dependencies.tokenManager = tokenManager;
-    },
-    'Rest client': (progress) async {
-      final restClientDio = Dio(BaseOptions(baseUrl: progress.environmentStore.baseUrl));
-
-      restClientDio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
-
-      progress.dependencies.restClientDio = restClientDio;
-    },
     'Settings Repository': (progress) {
       final sharedPreferences = progress.dependencies.sharedPreferences;
       final themeDataSource = ThemeDataSourceImpl(sharedPreferences: sharedPreferences, codec: const ThemeModeCodec());
@@ -49,6 +38,21 @@ mixin InitializationSteps {
         themeDataSource: themeDataSource,
         localeDataSource: localeDataSource,
       );
+    },
+    'Token Manager': (progress) async {
+      final tokenManager = TokenManagerImpl(sharedPreferences: progress.dependencies.sharedPreferences);
+      progress.dependencies.tokenManager = tokenManager;
+    },
+    'Rest client': (progress) async {
+      final restClientDio = Dio(BaseOptions(baseUrl: progress.environmentStore.baseUrl));
+
+      final settingsRepository = progress.dependencies.settingsRepository;
+
+      restClientDio.interceptors.add(PrettyDioLogger(requestHeader: true, requestBody: true));
+
+      restClientDio.interceptors.add(LanguageInterceptor(settingsRepository));
+
+      progress.dependencies.restClientDio = restClientDio;
     },
     'Auth Repository': (progress) async {
       final authDataSource = AuthDataSourceImpl(progress.dependencies.restClientDio);
