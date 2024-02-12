@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
-import 'package:jalda/src/core/widgets%20/blur_dialog_widget.dart';
 import 'package:jalda/src/feature/app/widget/app_button.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 
@@ -13,7 +12,7 @@ class FlatDetailsDialogWidget extends StatefulWidget {
   static void show(BuildContext context, FlatModel flat) {
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) => BlurDialogBackgroundWidget(child: FlatDetailsDialogWidget(flat: flat)),
+      builder: (BuildContext context) => FlatDetailsDialogWidget(flat: flat),
     );
   }
 

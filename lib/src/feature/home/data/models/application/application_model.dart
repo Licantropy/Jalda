@@ -28,5 +28,5 @@ class ApplicationModel with _$ApplicationModel {
       orderStatus: dto.orderStatus,
       isCompleted: dto.isCompleted,
       createdAt: dto.createdAt,
-      updatedAt: dto.updatedAt);
+      updatedAt: dto.updatedAt,);
 }

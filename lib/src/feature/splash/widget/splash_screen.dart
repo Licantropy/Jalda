@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jalda/src/feature/initialization/model/dependencies.dart';
 import 'package:jalda/src/feature/initialization/widget/dependencies_scope.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   /// temporary plug
-  void tokenCheck() async {
+  Future<void> tokenCheck() async {
     final tokenManager = DependenciesScope.of(context).tokenManager;
     final token = await tokenManager.getAccessToken();
     print("TOKEN: $token");
@@ -26,7 +25,5 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  Widget build(BuildContext context) => const Placeholder();
 }

@@ -105,7 +105,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   /// otherwise it returns a [Text] widget with 'Зарегистрироваться'.
   Widget _buildRegisterButtonChild() => AuthScope.stateOf(context) is RegisterLoading
       ? const CupertinoActivityIndicator(color: Colors.white)
-      : Text(Localization.of(context).register, style: TextStyle(color: Colors.white));
+      : Text(Localization.of(context).register, style: const TextStyle(color: Colors.white));
 
   @override
   void initState() {

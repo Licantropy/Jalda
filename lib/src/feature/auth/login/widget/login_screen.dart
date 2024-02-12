@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// otherwise it returns a [Text] widget with 'Войти'.
   Widget _buildLoginButtonChild() => AuthScope.stateOf(context) is LoginLoading
       ? const CupertinoActivityIndicator(color: Colors.white)
-      : Text(Localization.of(context).login, style: TextStyle(color: Colors.white));
+      : Text(Localization.of(context).login, style: const TextStyle(color: Colors.white));
 
   @override
   Widget build(BuildContext context) {

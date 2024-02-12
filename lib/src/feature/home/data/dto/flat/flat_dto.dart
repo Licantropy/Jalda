@@ -10,16 +10,17 @@ class FlatDto with _$FlatDto {
   const factory FlatDto({
     required int id,
     required String name,
-    String? description,
     required String address,
     required double longitude,
     required double latitude,
     required int rooms,
     required int floor,
+    required List<ImageDto> images,
+    @JsonKey(name: 'availability_status') required String availabilityStatus,
+
+    String? description,
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
-    @JsonKey(name: 'availability_status') required String availabilityStatus,
-    required List<ImageDto> images,
   }) = _FlatDto;
 
   ///

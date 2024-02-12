@@ -36,11 +36,11 @@ class MaterialContext extends StatelessWidget {
                   path: 'registration',
                   builder: (context, state) => const RegistrationScreen(),
                 ),
-              ]),
+              ],),
             ],
           ),
           GoRoute(name: 'home', path: '/home', builder: (context, state) => const OrdersScope(child: HomeScreen())),
-        ])
+        ],),
       ],
     );
 

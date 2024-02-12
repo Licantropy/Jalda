@@ -37,7 +37,7 @@ class _OrdersScopeState extends State<OrdersScope> implements OrdersScopeControl
     _ordersBloc.stream.listen((state) {
       state.maybeMap(
           error: (errorState) => ErrorScope.of(context).showErrorSnackBar(errorState.message ?? 'Неизвестная ошибка'),
-          orElse: () {}
+          orElse: () {},
       );
     });
   }

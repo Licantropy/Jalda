@@ -59,7 +59,7 @@ class _CustomTabBarState extends State<CustomTabBar> with SingleTickerProviderSt
             decoration: BoxDecoration(
               borderRadius: 10.r,
               color: Theme.of(context).colorScheme.background,
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.25), spreadRadius: 1, blurRadius: 6.0, offset: Offset(0, 4))],
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.25), spreadRadius: 1, blurRadius: 6.0, offset: const Offset(0, 4))],
             ),
             child: TabBar(
               dividerHeight: 0,

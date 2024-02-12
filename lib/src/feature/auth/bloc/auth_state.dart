@@ -32,4 +32,3 @@ class TokenRefreshLoading extends AuthState {}
 
 ///
 class TokenRefreshSuccess extends AuthState {}
-
