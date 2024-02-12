@@ -40,16 +40,23 @@ class FlatModel with _$FlatModel {
   }
 
   factory FlatModel.fromDto(FlatDto dto) => FlatModel(
-      id: dto.id,
-      name: dto.name,
-      description: dto.description,
-      address: dto.address,
-      longitude: dto.longitude,
-      latitude: dto.latitude,
-      priceHour: dto.priceHour,
-      priceDay: dto.priceDay,
-      rooms: dto.rooms,
-      floor: dto.floor,
-      status: _statusFromString(dto.availabilityStatus),
-      images: dto.images.map((e) => ImageModel(id: e.id, propertyId: e.propertyId, imageUrl: e.imageUrl)).toList(),);
+        id: dto.id,
+        name: dto.name,
+        description: dto.description,
+        address: dto.address,
+        longitude: dto.longitude,
+        latitude: dto.latitude,
+        priceHour: dto.priceHour,
+        priceDay: dto.priceDay,
+        rooms: dto.rooms,
+        floor: dto.floor,
+        status: _statusFromString(dto.availabilityStatus),
+        images: dto.images
+            .map((e) => ImageModel(
+                  id: e.id,
+                  propertyId: e.propertyId,
+                  imageUrl: e.imageUrl,
+                ))
+            .toList(),
+      );
 }

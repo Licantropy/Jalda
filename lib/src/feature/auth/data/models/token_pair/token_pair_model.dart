@@ -3,7 +3,6 @@ import 'package:jalda/src/feature/auth/data/dto/token_pair/token_pair_dto.dart';
 
 part 'token_pair_model.freezed.dart';
 
-
 ///
 @freezed
 class TokenPairModel with _$TokenPairModel {
@@ -16,5 +15,8 @@ class TokenPairModel with _$TokenPairModel {
   TokenPairModel._();
 
   ///
-  factory TokenPairModel.fromDto(TokenPairDto dto) => TokenPairModel(accessToken: dto.accessToken, refreshToken: dto.refreshToken);
+  factory TokenPairModel.fromDto(TokenPairDto dto) => TokenPairModel(
+        accessToken: dto.accessToken,
+        refreshToken: dto.refreshToken,
+      );
 }
