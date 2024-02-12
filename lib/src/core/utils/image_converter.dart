@@ -2,50 +2,43 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/services.dart';
 
-/// Loads an image from the asset bundle, resizes it to the specified dimensions,
-/// and converts it to a Uint8List.
+/// Loads an image from the asset bundle and converts it to a Uint8List after resizing.
 ///
-/// This function loads the image specified by [imagePath] from the asset bundle.
-/// It then decodes the image data to a ui.Image, resizes the image to the dimensions
-/// specified by [width] and [height], and finally converts the resized ui.Image
-/// to a Uint8List in PNG format.
+/// This function takes an image path as input and optionally allows specifying
+/// the width and height to resize the image. It first loads the image from the asset
+/// bundle into a ByteData object. Then, it uses the dart:ui library to decode the image
+/// and resize it to the specified dimensions.
+///
+/// The function handles resizing by using instantiateImageCodec, which decodes the
+/// image bytes and resizes the image according to the target width and height. After
+/// decoding and resizing, it converts the image to a PNG format ByteData and then
+/// to Uint8List for easy use with Flutter widgets.
+///
+/// Throws an exception if the image cannot be resized (e.g., if the resizing operation
+/// returns null).
+///
+/// Example usage:
+/// ```dart
+/// Uint8List iconBytes = await convertImageToUint8List('assets/icon.png', width: 50, height: 50);
+/// ```
 ///
 /// Parameters:
-///   - [imagePath]: The path to the image asset in the asset bundle.
-///   - [width]: The desired width of the resized image. Defaults to 120 pixels.
-///   - [height]: The desired height of the resized image. Defaults to 120 pixels.
+///   - imagePath (String): The path to the image asset.
+///   - width (int): Optional. The target width to resize the image to. Defaults to 100.
+///   - height (int): Optional. The target height to resize the image to. Defaults to 100.
 ///
 /// Returns:
-///   A Future that resolves to a Uint8List representing the resized and converted image.
-///
-/// Example:
-/// ```dart
-/// Uint8List imageBytes = await convertImageToUint8List('assets/image.png', width: 200, height: 200);
-/// ```
-Future<Uint8List> convertImageToUint8List(String imagePath, {int width = 120, int height = 120}) async {
-  // Load the image from the asset bundle.
+///   - A future Uint8List containing the resized image data.
+Future<Uint8List> convertImageToUint8List(String imagePath, {int width = 100, int height = 100}) async {
   final ByteData data = await rootBundle.load(imagePath);
   final Uint8List bytes = data.buffer.asUint8List();
+  final ui.Codec codec = await ui.instantiateImageCodec(bytes, targetWidth: width, targetHeight: height);
+  final ui.FrameInfo fi = await codec.getNextFrame();
+  final ByteData? resizedData = await fi.image.toByteData(format: ui.ImageByteFormat.png);
 
-  // Decode the image data to a ui.Image.
-  final ui.Codec codec = await ui.instantiateImageCodec(bytes);
-  final ui.FrameInfo frameInfo = await codec.getNextFrame();
-  ui.Image image = frameInfo.image;
+  if (resizedData == null) {
+    throw Exception('Failed to resize image');
+  }
 
-  // Resize the image.
-  final ui.PictureRecorder recorder = ui.PictureRecorder();
-  final ui.Canvas canvas = ui.Canvas(recorder);
-  final ui.Size size = ui.Size(width.toDouble(), height.toDouble());
-  final ui.Paint paint = ui.Paint();
-  canvas.drawImageRect(
-    image,
-    ui.Rect.fromLTRB(0, 0, image.width.toDouble(), image.height.toDouble()),
-    ui.Rect.fromLTRB(0, 0, size.width, size.height),
-    paint,
-  );
-  image = await recorder.endRecording().toImage(width, height);
-
-  // Convert the resized ui.Image to Uint8List.
-  final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  return byteData!.buffer.asUint8List();
+  return resizedData.buffer.asUint8List();
 }
