@@ -5,8 +5,9 @@ import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
 import 'package:jalda/src/core/utils/input_masks.dart';
 import 'package:jalda/src/core/utils/validator.dart';
-import 'package:jalda/src/feature/app/widget/app_button.dart';
-import 'package:jalda/src/feature/app/widget/app_text_form_field.dart';
+import 'package:jalda/src/core/widgets%20/app_button.dart';
+import 'package:jalda/src/core/widgets%20/app_password_form_field.dart';
+import 'package:jalda/src/core/widgets%20/app_text_form_field.dart';
 import 'package:jalda/src/feature/auth/bloc/auth_bloc.dart';
 import 'package:jalda/src/feature/auth/data/params/registration_params.dart';
 import 'package:jalda/src/feature/auth/widget/auth_scope.dart';
@@ -149,13 +150,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 validator: NameValidator(),
               ),
               12.h,
-              AppTextFormField(
+              AppPasswordFormField(
                 controller: _passwordController,
                 hintText: localization.password,
                 validator: PasswordValidator(),
               ),
               12.h,
-              AppTextFormField(
+              AppPasswordFormField(
                 controller: _confirmPasswordController,
                 hintText: localization.repeat_password,
                 validator: PasswordValidator(),

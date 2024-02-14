@@ -33,8 +33,7 @@ abstract interface class LocaleScopeController {
 /// {@template settings_scope_controller}
 /// A controller that holds and operates the app settings.
 /// {@endtemplate}
-abstract interface class SettingsScopeController
-    implements ThemeScopeController, LocaleScopeController {}
+abstract interface class SettingsScopeController implements ThemeScopeController, LocaleScopeController {}
 
 enum _SettingsScopeAspect {
   /// The theme aspect.
@@ -60,41 +59,29 @@ class SettingsScope extends StatefulWidget {
   final Widget child;
 
   /// Get the [SettingsScopeController] of the closest [SettingsScope] ancestor.
-  static SettingsScopeController of(
-    BuildContext context, {
-    bool listen = true,
-  }) =>
+  static SettingsScopeController of(BuildContext context, {bool listen = true}) =>
       context.inhOf<_InheritedSettingsScope>(listen: listen).controller;
 
   /// Get the [ThemeScopeController] of the closest [SettingsScope] ancestor.
-  static ThemeScopeController themeOf(BuildContext context) => context
-      .inheritFrom<_SettingsScopeAspect, _InheritedSettingsScope>(
-        aspect: _SettingsScopeAspect.theme,
-      )
-      .controller;
+  static ThemeScopeController themeOf(BuildContext context) =>
+      context.inheritFrom<_SettingsScopeAspect, _InheritedSettingsScope>(aspect: _SettingsScopeAspect.theme).controller;
 
   /// Get the [LocaleScopeController] of the closest [SettingsScope] ancestor.
-  static LocaleScopeController localeOf(BuildContext context) => context
-      .inheritFrom<_SettingsScopeAspect, _InheritedSettingsScope>(
-        aspect: _SettingsScopeAspect.locale,
-      )
-      .controller;
+  static LocaleScopeController localeOf(BuildContext context) =>
+      context.inheritFrom<_SettingsScopeAspect, _InheritedSettingsScope>(aspect: _SettingsScopeAspect.locale).controller;
 
   @override
   State<SettingsScope> createState() => _SettingsScopeState();
 }
 
 /// State for widget SettingsScope
-class _SettingsScopeState extends State<SettingsScope>
-    implements SettingsScopeController {
+class _SettingsScopeState extends State<SettingsScope> implements SettingsScopeController {
   late final SettingsBloc _settingsBloc;
 
   @override
   void initState() {
     super.initState();
-    _settingsBloc = SettingsBloc(
-      DependenciesScope.of(context).settingsRepository,
-    );
+    _settingsBloc = SettingsBloc(DependenciesScope.of(context).settingsRepository);
   }
 
   @override
@@ -104,27 +91,17 @@ class _SettingsScopeState extends State<SettingsScope>
   }
 
   @override
-  void setLocale(Locale locale) {
-    _settingsBloc.add(SettingsEvent.updateLocale(locale: locale));
-  }
+  void setLocale(Locale locale) => _settingsBloc.add(SettingsEvent.updateLocale(locale: locale));
 
   @override
-  void setThemeMode(ThemeMode themeMode) {
-    _settingsBloc.add(
-      SettingsEvent.updateTheme(
-        appTheme: AppTheme(mode: themeMode, seed: theme.seed),
-      ),
-    );
-  }
+  void setThemeMode(ThemeMode themeMode) => _settingsBloc.add(
+        SettingsEvent.updateTheme(appTheme: AppTheme(mode: themeMode, seed: theme.seed)),
+      );
 
   @override
-  void setThemeSeedColor(Color color) {
-    _settingsBloc.add(
-      SettingsEvent.updateTheme(
-        appTheme: AppTheme(mode: theme.mode, seed: color),
-      ),
-    );
-  }
+  void setThemeSeedColor(Color color) => _settingsBloc.add(
+        SettingsEvent.updateTheme(appTheme: AppTheme(mode: theme.mode, seed: color)),
+      );
 
   @override
   Locale get locale => _settingsBloc.state.locale;
@@ -133,8 +110,7 @@ class _SettingsScopeState extends State<SettingsScope>
   AppTheme get theme => _settingsBloc.state.appTheme;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<SettingsBloc, SettingsState>(
+  Widget build(BuildContext context) => BlocBuilder<SettingsBloc, SettingsState>(
         bloc: _settingsBloc,
         builder: (context, state) => _InheritedSettingsScope(
           controller: this,
@@ -155,8 +131,7 @@ class _InheritedSettingsScope extends InheritedModel<_SettingsScopeAspect> {
   final SettingsState state;
 
   @override
-  bool updateShouldNotify(_InheritedSettingsScope oldWidget) =>
-      state != oldWidget.state;
+  bool updateShouldNotify(_InheritedSettingsScope oldWidget) => state != oldWidget.state;
 
   @override
   bool updateShouldNotifyDependent(

@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jalda/src/core/const/app_icons.dart';
 import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/image_converter.dart';
-import 'package:jalda/src/feature/app/widget/app_button.dart';
+import 'package:jalda/src/core/widgets%20/app_button.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 import 'package:jalda/src/feature/home/widget/custom_tab_bar.dart';
 import 'package:jalda/src/feature/home/widget/flat_details_dialog.dart';

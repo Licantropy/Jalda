@@ -16,11 +16,10 @@ class FlatDto with _$FlatDto {
     required int rooms,
     required int floor,
     required List<ImageDto> images,
-    @JsonKey(name: 'availability_status') required String availabilityStatus,
-
     String? description,
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,
+    @JsonKey(name: 'availability_status') required String availabilityStatus,
   }) = _FlatDto;
 
   ///

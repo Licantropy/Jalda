@@ -67,14 +67,10 @@ sealed class SettingsEvent with _$SettingsEvent {
 final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   /// {@macro settings_bloc}
   SettingsBloc(this._settingsRepository)
-      : super(
-          SettingsState.idle(
-            appTheme: _settingsRepository.fetchThemeFromCache() ??
-                AppTheme.defaultTheme,
-            locale: _settingsRepository.fetchLocaleFromCache() ??
-                Localization.computeDefaultLocale(),
-          ),
-        ) {
+      : super(SettingsState.idle(
+          appTheme: _settingsRepository.fetchThemeFromCache() ?? AppTheme.defaultTheme,
+          locale: _settingsRepository.fetchLocaleFromCache() ?? Localization.computeDefaultLocale(),
+        )) {
     on<SettingsEvent>(
       (event, emit) => event.map(
         updateTheme: (event) => _updateTheme(event, emit),

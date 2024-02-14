@@ -12,7 +12,9 @@ enum AvailabilityStatus {
 }
 
 @freezed
+///
 class FlatModel with _$FlatModel {
+  ///
   const factory FlatModel({
     required int id,
     required String name,
@@ -20,6 +22,7 @@ class FlatModel with _$FlatModel {
     required double longitude,
     required double latitude,
     required int rooms,
+
     required int floor,
     @JsonKey(name: 'availability_status') required AvailabilityStatus status,
     required List<ImageModel> images,

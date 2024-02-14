@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jalda/src/core/localization/localization.dart';
 import 'package:jalda/src/core/utils/extensions/num_extensions.dart';
-import 'package:jalda/src/feature/app/widget/app_button.dart';
+import 'package:jalda/src/core/widgets%20/app_button.dart';
 import 'package:jalda/src/feature/home/data/models/flat/flat_model.dart';
 
 class FlatDetailsDialogWidget extends StatefulWidget {
