@@ -1,9 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:jalda/src/feature/home/data/dto/image/image_dto.dart';
+import 'package:jalda/src/feature/home/data/dto/landlord/landlord_dto.dart';
 
 part 'flat_dto.freezed.dart';
 
 part 'flat_dto.g.dart';
+
 
 @freezed
 class FlatDto with _$FlatDto {
@@ -16,6 +18,7 @@ class FlatDto with _$FlatDto {
     required int rooms,
     required int floor,
     required List<ImageDto> images,
+    @JsonKey(name: 'profile') required LandlordDto landlord,
     String? description,
     @JsonKey(name: 'price_hour') int? priceHour,
     @JsonKey(name: 'price_day') int? priceDay,

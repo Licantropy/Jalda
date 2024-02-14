@@ -68,7 +68,10 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                   onPageChanged: (index) => _currentPage.value = index,
                   itemBuilder: (context, index) => Padding(
                     padding: 8.p,
-                    child: ClipRRect(borderRadius: 10.r, child: Image.network(widget.flat.images[index].imageUrl, fit: BoxFit.cover)),
+                    child: ClipRRect(
+                      borderRadius: 10.r,
+                      child: Image.network(widget.flat.images[index].imageUrl, fit: BoxFit.cover),
+                    ),
                   ),
                 ),
               ),
@@ -100,18 +103,14 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                   16.h,
                   Text(
                     widget.flat.name,
-                    style: theme.primaryTextTheme.titleLarge?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
+                    style: theme.primaryTextTheme.titleLarge?.copyWith(color: theme.colorScheme.onPrimaryContainer),
                     maxLines: 2,
                   ),
                   5.h,
                   if (widget.flat.description != null)
                     Text(
                       widget.flat.description!,
-                      style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer,
-                      ),
+                      style: theme.primaryTextTheme.bodyMedium?.copyWith(color: theme.colorScheme.onPrimaryContainer),
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -124,22 +123,20 @@ class _FlatDetailsDialogWidgetState extends State<FlatDetailsDialogWidget> {
                       Expanded(
                         child: RichText(
                           text: TextSpan(
-                            text: '${widget.flat.name}\n',
+                            text: '${widget.flat.landlord.name}\n',
                             children: [
                               TextSpan(text: '${widget.flat.address}\n'),
                               TextSpan(text: localization.floor_rooms(widget.flat.floor, widget.flat.rooms)),
                               // TextSpan(text: 'Этаж:${widget.flat.floor}/Комнат: ${widget.flat.rooms}'),
                             ],
-                            style: theme.primaryTextTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onPrimaryContainer,
-                            ),
+                            style: theme.primaryTextTheme.bodyMedium?.copyWith(color: theme.colorScheme.onPrimaryContainer),
                           ),
                         ),
                       ),
                       Text(
                         widget.flat.priceDay != null
-                            ? localization.price_per_day(widget.flat.priceDay.toString())
-                            : localization.price_per_hour(widget.flat.priceHour.toString()),
+                            ? localization.price_per_day(widget.flat.priceDay!)
+                            : localization.price_per_day(widget.flat.priceHour!),
                         style: theme.primaryTextTheme.titleMedium?.copyWith(color: const Color(0xFF3ECD79), fontSize: 18),
                       ),
                     ],
